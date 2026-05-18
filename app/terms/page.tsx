@@ -1,15 +1,11 @@
 export default function TermsPage() {
   return (
-    <main className="min-h-screen bg-black text-white p-10">
-      <h1 className="text-4xl font-bold mb-6">Terms of Service</h1>
-
-      <p>
-        LifeCode AI provides digital destiny analysis services.
-      </p>
-
-      <p className="mt-4">
-        All reports are for entertainment and self-reflection purposes only.
-      </p>
+    <main className="min-h-screen bg-black p-10 text-white">
+      <h1 className="mb-6 text-4xl font-bold">Terms of Service</h1>
+      <p>LifeCode AI provides digital destiny analysis and self-reflection reports.</p>
+      <p className="mt-4">All reports are for entertainment, reflection, and educational purposes only.</p>
+      <p className="mt-4">Reports should not be treated as medical, legal, financial, or professional advice.</p>
+      <p className="mt-4">Contact: chldhksdyd@gmail.com</p>
     </main>
   )
 }
