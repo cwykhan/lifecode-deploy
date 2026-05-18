@@ -1,25 +1,34 @@
-import { execFileSync } from "child_process"
-import path from "path"
+export const runtime = "nodejs"
+export const dynamic = "force-dynamic"
 
 export async function POST(req: Request) {
   try {
     const { year, month, day, hour, minute } = await req.json()
 
-    const scriptPath = path.join(
-      process.cwd(),
-      "engine",
-      "node",
-      "runSajuEngine.js"
-    )
+    const requireFunc = eval("require")
+    const { execSync } = requireFunc("child_process")
 
-    const result = execFileSync(
-      "node",
-      [scriptPath, String(year), String(month), String(day), String(hour), String(minute)],
-      {
-        cwd: path.dirname(scriptPath),
-        encoding: "utf-8"
-      }
-    )
+    const scriptPath =
+      process.cwd() + "/engine/node/runSajuEngine.js"
+
+    const cmd =
+      "node " +
+      JSON.stringify(scriptPath) +
+      " " +
+      String(year) +
+      " " +
+      String(month) +
+      " " +
+      String(day) +
+      " " +
+      String(hour) +
+      " " +
+      String(minute)
+
+    const result = execSync(cmd, {
+      encoding: "utf-8",
+      cwd: process.cwd() + "/engine/node"
+    })
 
     return Response.json(JSON.parse(result))
   } catch (error) {
