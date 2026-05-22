@@ -4,12 +4,14 @@ import { useState } from "react"
 import { generateReport } from "@/lib/reportText"
 import { generateDestinyExperience } from "@/lib/destinyCode"
 import PaddlePayButton from "@/components/PaddlePayButton"
+import FiveEnergyRadar from "@/components/FiveEnergyRadar"
+import ZodiacAvatar from "@/components/ZodiacAvatar"
 
 const plans = [
-  { id: "commons", name: "COMMONS", price: "$5", desc: "Basic signal scan and locked hidden pattern." },
-  { id: "merchants", name: "MERCHANTS", price: "$15", desc: "Career, balance, and Useful Energy guidance." },
-  { id: "nobility", name: "NOBILITY", price: "$30", desc: "Career, wealth, relationship, and health report." },
-  { id: "emperor", name: "EMPEROR", price: "$50", desc: "Premium complete strategic LifeCode report." }
+  { id: "commons", name: "BRONZE", price: "$5", desc: "Basic signal scan and locked hidden pattern." },
+  { id: "merchants", name: "SILVER", price: "$15", desc: "Career, balance, and Useful Energy guidance." },
+  { id: "nobility", name: "GOLD", price: "$30", desc: "Career, wealth, relationship, and health report." },
+  { id: "emperor", name: "PLATINUM", price: "$50", desc: "Premium complete strategic LifeCode report." }
 ]
 
 const energyColor: Record<string, string> = {
@@ -233,6 +235,20 @@ export default function Home() {
               </div>
 
               <div className="grid gap-8 bg-[#242424]/95 p-8">
+
+                <ZodiacAvatar pillar={pillars.year} />
+
+
+                <FiveEnergyRadar
+                  data={[
+                    { energy: "Tree", value: five.Tree || 0 },
+                    { energy: "Fire", value: five.Fire || 0 },
+                    { energy: "Earth", value: five.Earth || 0 },
+                    { energy: "Metal", value: five.Metal || 0 },
+                    { energy: "Water", value: five.Water || 0 }
+                  ]}
+                />
+
                 <div className="rounded-3xl border border-red-500/20 bg-black/45 p-8">
                   <h2 className="text-4xl font-black text-red-300">
                     Five Energy Ratio
@@ -319,7 +335,11 @@ export default function Home() {
                   onClick={reset}
                   className="w-fit rounded-xl border border-white/20 bg-black/70 px-5 py-3 text-sm font-bold"
                 >
-                  ← RE-ENTER BIRTH DATA
+                  
+<span className="relative z-10 flex items-center gap-3">
+  ✦ RE-ENTER DESTINY DATA
+</span>
+
                 </button>
               </div>
             </section>
