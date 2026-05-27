@@ -4,15 +4,21 @@ import { useState } from "react"
 import { generateReport } from "@/lib/reportText"
 import { generateDestinyExperience } from "@/lib/destinyCode"
 import PaddlePayButton from "@/components/PaddlePayButton"
-import FiveEnergyRadar from "@/components/FiveEnergyRadar"
 import ZodiacAvatar from "@/components/ZodiacAvatar"
 
 const plans = [
-  { id: "commons", name: "BRONZE", price: "$5", desc: "Basic signal scan and locked hidden pattern." },
-  { id: "merchants", name: "SILVER", price: "$15", desc: "Career, balance, and Useful Energy guidance." },
-  { id: "nobility", name: "GOLD", price: "$30", desc: "Career, wealth, relationship, and health report." },
-  { id: "emperor", name: "PLATINUM", price: "$50", desc: "Premium complete strategic LifeCode report." }
+  { id: "bronze", name: "BRONZE", price: "$5", desc: "Basic signal scan and locked hidden pattern." },
+  { id: "silver", name: "SILVER", price: "$15", desc: "Career, balance, and Useful Energy guidance." },
+  { id: "gold", name: "GOLD", price: "$30", desc: "Career, wealth, relationship, and health report." },
+  { id: "platinum", name: "PLATINUM", price: "$50", desc: "Premium complete strategic LifeCode report." }
 ]
+
+const reportPlanMap: Record<string, string> = {
+  bronze: "commons",
+  silver: "merchants",
+  gold: "nobility",
+  platinum: "emperor"
+}
 
 const energyColor: Record<string, string> = {
   Tree: "bg-blue-500",
@@ -25,7 +31,7 @@ const energyColor: Record<string, string> = {
 export default function Home() {
   const [birthDate, setBirthDate] = useState("1976-11-11")
   const [birthTime, setBirthTime] = useState("14:30")
-  const [selectedPlan, setSelectedPlan] = useState("commons")
+  const [selectedPlan, setSelectedPlan] = useState("bronze")
   const [result, setResult] = useState<any>(null)
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
@@ -67,8 +73,8 @@ export default function Home() {
 
   const pillars = result?.pillars
   const five = result?.fiveEnergy?.ratio
-  const report = result ? generateReport(result, selectedPlan) : ""
   const destiny = result ? generateDestinyExperience(result) : null
+  const report = result ? generateReport(result, reportPlanMap[selectedPlan]) : ""
 
   return (
     <main className="min-h-screen bg-[#171717] text-white">
@@ -86,18 +92,16 @@ export default function Home() {
                 Ancient Korean Astronomy Engine
               </p>
 
-              <h1 className="mt-5 text-7xl font-black tracking-tight text-yellow-100 drop-shadow-[0_0_20px_rgba(255,230,160,0.25)]">
+              <h1 className="mt-5 text-7xl font-black tracking-tight text-yellow-100">
                 LifeCode AI
               </h1>
 
               <p className="mt-6 max-w-3xl text-2xl font-semibold leading-10 text-white">
-                The stars were already aligned before your first breath.
+                Decode the hidden architecture of human destiny.
               </p>
 
               <section className="mt-10 rounded-3xl border border-yellow-300/15 bg-black/60 p-8 backdrop-blur-xl">
-                <h2 className="text-2xl font-black text-yellow-100">
-                  Birth Information
-                </h2>
+                <h2 className="text-2xl font-black text-yellow-100">Birth Information</h2>
 
                 <div className="mt-8 grid gap-5 md:grid-cols-2">
                   <label>
@@ -123,9 +127,7 @@ export default function Home() {
               </section>
 
               <section className="mt-8 rounded-3xl border border-yellow-300/15 bg-black/60 p-8 backdrop-blur-xl">
-                <h2 className="text-2xl font-black text-red-200">
-                  Choose Your Rank
-                </h2>
+                <h2 className="text-2xl font-black text-red-200">Choose Your Rank</h2>
 
                 <div className="mt-8 grid gap-5 md:grid-cols-4">
                   {plans.map((plan) => (
@@ -139,15 +141,9 @@ export default function Home() {
                           : "border-white/10 bg-black/60 hover:border-yellow-300/40"
                       ].join(" ")}
                     >
-                      <p className="text-lg font-black tracking-widest text-yellow-100">
-                        {plan.name}
-                      </p>
-                      <p className="mt-3 text-3xl font-black text-yellow-300">
-                        {plan.price}
-                      </p>
-                      <p className="mt-4 text-sm leading-6 text-gray-300">
-                        {plan.desc}
-                      </p>
+                      <p className="text-lg font-black tracking-widest text-yellow-100">{plan.name}</p>
+                      <p className="mt-3 text-3xl font-black text-yellow-300">{plan.price}</p>
+                      <p className="mt-4 text-sm leading-6 text-gray-300">{plan.desc}</p>
                     </button>
                   ))}
                 </div>
@@ -172,26 +168,16 @@ export default function Home() {
           {result && pillars && five && destiny && (
             <section className="pt-[23vh]">
               <div className="rounded-t-3xl bg-[#242424]/95 p-8 shadow-2xl">
-                <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-                  <div>
-                    <p className="text-sm uppercase tracking-[0.55em] text-red-200">
-                      Destiny Signal Detected
-                    </p>
+                <p className="text-sm uppercase tracking-[0.55em] text-red-200">
+                  Destiny Signal Detected
+                </p>
 
-                    <h1 className="mt-4 text-6xl font-black tracking-tight text-yellow-100">
-                      {destiny.rarity}
-                    </h1>
-                  </div>
-
-                  <button className="bg-red-600 px-12 py-5 text-2xl font-black text-white">
-                    Korean Ancient Code
-                  </button>
-                </div>
+                <h1 className="mt-4 text-6xl font-black tracking-tight text-yellow-100">
+                  {destiny.rarity}
+                </h1>
 
                 <div className="mt-8 rounded-2xl border border-yellow-300/20 bg-black/70 p-7">
-                  <p className="text-sm font-bold uppercase tracking-widest text-gray-400">
-                    LIFE CODE
-                  </p>
+                  <p className="text-sm font-bold uppercase tracking-widest text-gray-400">LIFE CODE</p>
                   <p className="mt-3 text-5xl font-black tracking-wide text-yellow-300">
                     {destiny.lifeCode}
                   </p>
@@ -206,53 +192,32 @@ export default function Home() {
                 </p>
               </div>
 
-              <div className="bg-[#242424]/95 p-8">
-                <h2 className="text-4xl font-black text-blue-300">
-                  Four Pillars
-                </h2>
-
-                <div className="mt-8 grid grid-cols-2 gap-7 md:grid-cols-4">
-                  {["year", "month", "day", "hour"].map((key) => {
-                    const p = pillars[key]
-                    return (
-                      <div
-                        key={key}
-                        className="rounded-2xl border border-white/10 bg-black/70 p-8"
-                      >
-                        <p className="text-sm uppercase tracking-widest text-gray-500">
-                          {key}
-                        </p>
-                        <p className="mt-5 text-6xl font-black text-yellow-100">
-                          {p.stem.symbol}{p.branch.symbol}
-                        </p>
-                        <p className="mt-5 text-lg font-semibold text-gray-300">
-                          {p.stem.element} / {p.branch.element}
-                        </p>
-                      </div>
-                    )
-                  })}
-                </div>
-              </div>
-
               <div className="grid gap-8 bg-[#242424]/95 p-8">
-
                 <ZodiacAvatar pillar={pillars.year} />
 
+                <div>
+                  <h2 className="text-4xl font-black text-blue-300">Four Pillars</h2>
 
-                <FiveEnergyRadar
-                  data={[
-                    { energy: "Tree", value: five.Tree || 0 },
-                    { energy: "Fire", value: five.Fire || 0 },
-                    { energy: "Earth", value: five.Earth || 0 },
-                    { energy: "Metal", value: five.Metal || 0 },
-                    { energy: "Water", value: five.Water || 0 }
-                  ]}
-                />
+                  <div className="mt-8 grid grid-cols-2 gap-7 md:grid-cols-4">
+                    {["year", "month", "day", "hour"].map((key) => {
+                      const p = pillars[key]
+                      return (
+                        <div key={key} className="rounded-2xl border border-white/10 bg-black/70 p-8">
+                          <p className="text-sm uppercase tracking-widest text-gray-500">{key}</p>
+                          <p className="mt-5 text-6xl font-black text-yellow-100">
+                            {p.stem.symbol}{p.branch.symbol}
+                          </p>
+                          <p className="mt-5 text-lg font-semibold text-gray-300">
+                            {p.stem.element} / {p.branch.element}
+                          </p>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
 
                 <div className="rounded-3xl border border-red-500/20 bg-black/45 p-8">
-                  <h2 className="text-4xl font-black text-red-300">
-                    Five Energy Ratio
-                  </h2>
+                  <h2 className="text-4xl font-black text-red-300">Five Energy Ratio</h2>
 
                   <div className="mt-8 space-y-5">
                     {Object.entries(five).map(([name, value]: any) => (
@@ -273,9 +238,7 @@ export default function Home() {
                 </div>
 
                 <div className="rounded-3xl border border-purple-500/20 bg-black/45 p-8">
-                  <h2 className="text-4xl font-black text-purple-300">
-                    Core Reading
-                  </h2>
+                  <h2 className="text-4xl font-black text-purple-300">Core Reading</h2>
 
                   <div className="mt-8 grid gap-5 md:grid-cols-3">
                     <div className="rounded-2xl border border-white/10 bg-black/60 p-6">
@@ -307,17 +270,15 @@ export default function Home() {
                   </div>
                 </div>
 
-                {selectedPlan === "commons" ? (
+                {selectedPlan === "bronze" ? (
                   <div className="rounded-3xl border border-yellow-500/20 bg-black/50 p-8">
-                    <h2 className="text-4xl font-black text-yellow-300">
-                      Hidden Pattern Locked
-                    </h2>
+                    <h2 className="text-4xl font-black text-yellow-300">Hidden Pattern Locked</h2>
 
                     <div className="mt-6 whitespace-pre-line rounded-2xl border border-white/10 bg-black/70 p-7 text-xl leading-10 text-gray-200">
                       {destiny.lockedMessage}
                     </div>
 
-                    <PaddlePayButton plan="merchants" />
+                    <PaddlePayButton plan="silver" />
                   </div>
                 ) : (
                   <div className="rounded-3xl border border-yellow-500/20 bg-black/45 p-8">
@@ -333,17 +294,22 @@ export default function Home() {
 
                 <button
                   onClick={reset}
-                  className="w-fit rounded-xl border border-white/20 bg-black/70 px-5 py-3 text-sm font-bold"
+                  className="w-fit rounded-2xl border border-yellow-400/40 bg-gradient-to-r from-yellow-500 via-amber-400 to-yellow-600 px-10 py-5 text-lg font-black tracking-widest text-black shadow-[0_0_40px_rgba(255,215,0,0.35)] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_60px_rgba(255,215,0,0.55)]"
                 >
-                  
-<span className="relative z-10 flex items-center gap-3">
-  ✦ RE-ENTER DESTINY DATA
-</span>
-
+                  ✦ RE-ENTER DESTINY DATA
                 </button>
               </div>
             </section>
           )}
+
+          <footer className="mt-20 border-t border-white/10 py-10 text-center text-sm text-zinc-400">
+            <div className="flex justify-center gap-6">
+              <a href="/privacy" className="hover:text-white">Privacy Policy</a>
+              <a href="/terms" className="hover:text-white">Terms of Service</a>
+              <a href="/refund" className="hover:text-white">Refund Policy</a>
+            </div>
+            <p className="mt-4">© LifeCode AI. Digital destiny analysis service.</p>
+          </footer>
         </div>
       </section>
     </main>
