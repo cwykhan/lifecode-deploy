@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "make -C engine/cal20000 && next build",
+    "build": "make -C engine/cal20000 && chmod +x engine/cal20000/saju-cli && next build",
     "start": "next start -H 0.0.0.0 -p ${PORT:-3000}",
     "lint": "eslint",
-    "prebuild": "make -C engine/cal20000"
+    "prebuild": "make -C engine/cal20000 && chmod +x engine/cal20000/saju-cli"
   },
   "dependencies": {
     "next": "16.2.4",

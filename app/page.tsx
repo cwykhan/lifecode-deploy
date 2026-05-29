@@ -6,11 +6,11 @@ import { generateDestinyExperience } from "@/lib/destinyCode"
 import PaddlePayButton from "@/components/PaddlePayButton"
 import ZodiacAvatar from "@/components/ZodiacAvatar"
 
-const plans = [
-  { id: "bronze", name: "BRONZE", price: "$5", desc: "Basic signal scan and locked hidden pattern." },
-  { id: "silver", name: "SILVER", price: "$15", desc: "Career, balance, and Useful Energy guidance." },
+const paidPlans = [
+  { id: "bronze", name: "BRONZE", price: "$5", desc: "Core reading and Useful Energy." },
+  { id: "silver", name: "SILVER", price: "$15", desc: "Career, balance, and hidden pattern guide." },
   { id: "gold", name: "GOLD", price: "$30", desc: "Career, wealth, relationship, and health report." },
-  { id: "platinum", name: "PLATINUM", price: "$50", desc: "Premium complete strategic LifeCode report." }
+  { id: "platinum", name: "PLATINUM", price: "$50", desc: "Full strategic LifeCode blueprint." }
 ]
 
 const reportPlanMap: Record<string, string> = {
@@ -48,7 +48,7 @@ export default function Home() {
       const res = await fetch("/api/saju", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ year, month, day, hour, minute, plan: selectedPlan })
+        body: JSON.stringify({ year, month, day, hour, minute, plan: "free" })
       })
 
       const data = await res.json()
@@ -124,35 +124,12 @@ export default function Home() {
                     />
                   </label>
                 </div>
-              </section>
-
-              <section className="mt-8 rounded-3xl border border-yellow-300/15 bg-black/60 p-8 backdrop-blur-xl">
-                <h2 className="text-2xl font-black text-red-200">Choose Your Rank</h2>
-
-                <div className="mt-8 grid gap-5 md:grid-cols-4">
-                  {plans.map((plan) => (
-                    <button
-                      key={plan.id}
-                      onClick={() => setSelectedPlan(plan.id)}
-                      className={[
-                        "rounded-2xl border p-5 text-left transition",
-                        selectedPlan === plan.id
-                          ? "border-yellow-300 bg-yellow-500/10 shadow-[0_0_40px_rgba(255,215,120,0.18)]"
-                          : "border-white/10 bg-black/60 hover:border-yellow-300/40"
-                      ].join(" ")}
-                    >
-                      <p className="text-lg font-black tracking-widest text-yellow-100">{plan.name}</p>
-                      <p className="mt-3 text-3xl font-black text-yellow-300">{plan.price}</p>
-                      <p className="mt-4 text-sm leading-6 text-gray-300">{plan.desc}</p>
-                    </button>
-                  ))}
-                </div>
 
                 <button
                   onClick={decode}
                   className="mt-8 rounded-none bg-red-600 px-12 py-5 text-xl font-black tracking-wide text-white transition hover:bg-red-500"
                 >
-                  {loading ? "DECODING..." : "Korean Ancient Code"}
+                  {loading ? "DECODING..." : "FREE SIGNAL SCAN"}
                 </button>
               </section>
             </div>
@@ -169,7 +146,7 @@ export default function Home() {
             <section className="pt-[23vh]">
               <div className="rounded-t-3xl bg-[#242424]/95 p-8 shadow-2xl">
                 <p className="text-sm uppercase tracking-[0.55em] text-red-200">
-                  Destiny Signal Detected
+                  Free Destiny Signal Detected
                 </p>
 
                 <h1 className="mt-4 text-6xl font-black tracking-tight text-yellow-100">
@@ -238,7 +215,7 @@ export default function Home() {
                 </div>
 
                 <div className="rounded-3xl border border-purple-500/20 bg-black/45 p-8">
-                  <h2 className="text-4xl font-black text-purple-300">Core Reading</h2>
+                  <h2 className="text-4xl font-black text-purple-300">Free Core Reading</h2>
 
                   <div className="mt-8 grid gap-5 md:grid-cols-3">
                     <div className="rounded-2xl border border-white/10 bg-black/60 p-6">
@@ -253,9 +230,6 @@ export default function Home() {
                       <p className="mt-4 text-4xl font-black text-red-200">
                         {result.strength?.dominantEnergy}
                       </p>
-                      <p className="mt-4 text-sm leading-7 text-red-100">
-                        {destiny.dangerText}
-                      </p>
                     </div>
 
                     <div className="rounded-2xl border border-white/10 bg-black/60 p-6">
@@ -263,34 +237,61 @@ export default function Home() {
                       <p className="mt-4 text-4xl font-black text-blue-200">
                         {result.usefulEnergy}
                       </p>
-                      <p className="mt-4 text-sm leading-7 text-blue-100">
-                        {destiny.usefulText}
-                      </p>
                     </div>
                   </div>
+
+                  <p className="mt-8 text-xl leading-9 text-gray-200">
+                    This free scan reveals only the surface structure. The deeper report explains
+                    why this pattern repeats, where imbalance appears, and how your Useful Energy
+                    should be used to correct the structure.
+                  </p>
                 </div>
 
-                {selectedPlan === "bronze" ? (
-                  <div className="rounded-3xl border border-yellow-500/20 bg-black/50 p-8">
-                    <h2 className="text-4xl font-black text-yellow-300">Hidden Pattern Locked</h2>
+                <div className="rounded-3xl border border-yellow-500/30 bg-black/60 p-8">
+                  <h2 className="text-4xl font-black text-yellow-300">
+                    Unlock Full LifeCode Report
+                  </h2>
 
-                    <div className="mt-6 whitespace-pre-line rounded-2xl border border-white/10 bg-black/70 p-7 text-xl leading-10 text-gray-200">
-                      {destiny.lockedMessage}
-                    </div>
+                  <p className="mt-4 text-lg leading-8 text-gray-300">
+                    Choose a premium tier to reveal career direction, wealth pattern,
+                    relationship dynamics, hidden risk, health tendency, and strategic guidance.
+                  </p>
 
-                    <PaddlePayButton plan="silver" />
+                  <div className="mt-8 grid gap-5 md:grid-cols-4">
+                    {paidPlans.map((plan) => (
+                      <button
+                        key={plan.id}
+                        onClick={() => setSelectedPlan(plan.id)}
+                        className={[
+                          "rounded-2xl border p-5 text-left transition",
+                          selectedPlan === plan.id
+                            ? "border-yellow-300 bg-yellow-500/10 shadow-[0_0_40px_rgba(255,215,120,0.18)]"
+                            : "border-white/10 bg-black/60 hover:border-yellow-300/40"
+                        ].join(" ")}
+                      >
+                        <p className="text-lg font-black tracking-widest text-yellow-100">{plan.name}</p>
+                        <p className="mt-3 text-3xl font-black text-yellow-300">{plan.price}</p>
+                        <p className="mt-4 text-sm leading-6 text-gray-300">{plan.desc}</p>
+                      </button>
+                    ))}
                   </div>
-                ) : (
-                  <div className="rounded-3xl border border-yellow-500/20 bg-black/45 p-8">
-                    <h2 className="text-4xl font-black text-yellow-300">
-                      {selectedPlan.toUpperCase()} LifeCode Report
-                    </h2>
 
-                    <div className="mt-6 whitespace-pre-line rounded-2xl border border-white/10 bg-black/65 p-7 text-xl leading-10 text-gray-200">
+                  <div className="mt-8 rounded-2xl border border-white/10 bg-black/70 p-7">
+                    <h3 className="text-2xl font-black text-yellow-200">
+                      {selectedPlan.toUpperCase()} Preview
+                    </h3>
+
+                    <div className="mt-5 max-h-72 overflow-hidden whitespace-pre-line text-lg leading-9 text-gray-300 opacity-70">
                       {report}
                     </div>
+
+                    <div className="mt-6 rounded-xl border border-red-400/30 bg-red-950/30 p-5 text-red-100">
+                      Full report is locked until purchase.
+                    </div>
+
+                    <PaddlePayButton plan={selectedPlan} />
                   </div>
-                )}
+                </div>
 
                 <button
                   onClick={reset}
