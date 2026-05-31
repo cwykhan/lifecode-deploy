@@ -5,6 +5,9 @@ import { generateReport } from "@/lib/reportText"
 import { generateDestinyExperience } from "@/lib/destinyCode"
 import PaddlePayButton from "@/components/PaddlePayButton"
 import ZodiacAvatar from "@/components/ZodiacAvatar"
+import DestinyScore from "@/components/DestinyScore"
+import DestinyCharacter from "@/components/DestinyCharacter"
+import WealthRelationshipStyle from "@/components/WealthRelationshipStyle"
 
 const paidPlans = [
   { id: "bronze", name: "BRONZE", price: "$5", desc: "Core reading and Useful Energy." },
@@ -101,7 +104,11 @@ export default function Home() {
               </p>
 
               <section className="mt-10 rounded-3xl border border-yellow-300/15 bg-black/60 p-8 backdrop-blur-xl">
-                <h2 className="text-2xl font-black text-yellow-100">Birth Information</h2>
+                <h2 className="text-2xl font-black text-yellow-100">Free Signal Scan</h2>
+
+                <p className="mt-3 text-gray-300">
+                  Enter your birth data and receive your free LifeCode signal before choosing any premium tier.
+                </p>
 
                 <div className="mt-8 grid gap-5 md:grid-cols-2">
                   <label>
@@ -129,7 +136,7 @@ export default function Home() {
                   onClick={decode}
                   className="mt-8 rounded-none bg-red-600 px-12 py-5 text-xl font-black tracking-wide text-white transition hover:bg-red-500"
                 >
-                  {loading ? "DECODING..." : "FREE SIGNAL SCAN"}
+                  {loading ? "SCANNING..." : "FREE SIGNAL SCAN"}
                 </button>
               </section>
             </div>
@@ -163,14 +170,17 @@ export default function Home() {
                 <p className="mt-8 max-w-5xl text-2xl font-semibold leading-10 text-gray-100">
                   {destiny.rarityText}
                 </p>
-
-                <p className="mt-5 max-w-5xl text-2xl font-semibold leading-10 text-red-100">
-                  {destiny.hook}
-                </p>
               </div>
 
               <div className="grid gap-8 bg-[#242424]/95 p-8">
                 <ZodiacAvatar pillar={pillars.year} />
+
+                <div className="grid gap-6 md:grid-cols-2">
+                  <DestinyScore result={result} />
+                  <DestinyCharacter result={result} />
+                </div>
+
+                <WealthRelationshipStyle result={result} />
 
                 <div>
                   <h2 className="text-4xl font-black text-blue-300">Four Pillars</h2>
@@ -214,47 +224,13 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="rounded-3xl border border-purple-500/20 bg-black/45 p-8">
-                  <h2 className="text-4xl font-black text-purple-300">Free Core Reading</h2>
-
-                  <div className="mt-8 grid gap-5 md:grid-cols-3">
-                    <div className="rounded-2xl border border-white/10 bg-black/60 p-6">
-                      <p className="text-gray-400">Strength</p>
-                      <p className="mt-4 text-4xl font-black text-yellow-100">
-                        {result.strength?.level}
-                      </p>
-                    </div>
-
-                    <div className="rounded-2xl border border-white/10 bg-black/60 p-6">
-                      <p className="text-gray-400">Dominant Energy</p>
-                      <p className="mt-4 text-4xl font-black text-red-200">
-                        {result.strength?.dominantEnergy}
-                      </p>
-                    </div>
-
-                    <div className="rounded-2xl border border-white/10 bg-black/60 p-6">
-                      <p className="text-gray-400">Useful Energy</p>
-                      <p className="mt-4 text-4xl font-black text-blue-200">
-                        {result.usefulEnergy}
-                      </p>
-                    </div>
-                  </div>
-
-                  <p className="mt-8 text-xl leading-9 text-gray-200">
-                    This free scan reveals only the surface structure. The deeper report explains
-                    why this pattern repeats, where imbalance appears, and how your Useful Energy
-                    should be used to correct the structure.
-                  </p>
-                </div>
-
                 <div className="rounded-3xl border border-yellow-500/30 bg-black/60 p-8">
                   <h2 className="text-4xl font-black text-yellow-300">
                     Unlock Full LifeCode Report
                   </h2>
 
                   <p className="mt-4 text-lg leading-8 text-gray-300">
-                    Choose a premium tier to reveal career direction, wealth pattern,
-                    relationship dynamics, hidden risk, health tendency, and strategic guidance.
+                    The free scan reveals only the surface structure. Choose a premium tier to unlock deeper interpretation.
                   </p>
 
                   <div className="mt-8 grid gap-5 md:grid-cols-4">
@@ -278,15 +254,19 @@ export default function Home() {
 
                   <div className="mt-8 rounded-2xl border border-white/10 bg-black/70 p-7">
                     <h3 className="text-2xl font-black text-yellow-200">
-                      {selectedPlan.toUpperCase()} Preview
+                      {selectedPlan.toUpperCase()} Locked Preview
                     </h3>
 
-                    <div className="mt-5 max-h-72 overflow-hidden whitespace-pre-line text-lg leading-9 text-gray-300 opacity-70">
-                      {report}
-                    </div>
-
-                    <div className="mt-6 rounded-xl border border-red-400/30 bg-red-950/30 p-5 text-red-100">
-                      Full report is locked until purchase.
+                    <div className="mt-5 rounded-2xl border border-yellow-300/20 bg-black/70 p-6 text-lg leading-9 text-gray-300">
+                      <p className="font-black text-yellow-200">Locked Premium Sections</p>
+                      <ul className="mt-4 list-disc space-y-2 pl-6">
+                        <li>Career direction and work pattern</li>
+                        <li>Wealth and money flow tendency</li>
+                        <li>Relationship and partner dynamics</li>
+                        <li>Health imbalance signal</li>
+                        <li>Hidden risk and correction strategy</li>
+                        <li>Useful Energy deep interpretation</li>
+                      </ul>
                     </div>
 
                     <PaddlePayButton plan={selectedPlan} />

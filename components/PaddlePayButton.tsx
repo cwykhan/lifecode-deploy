@@ -9,16 +9,13 @@ declare global {
 }
 
 const priceMap: Record<string, string | undefined> = {
-  merchants: process.env.NEXT_PUBLIC_PADDLE_MERCHANTS_PRICE_ID,
-  nobility: process.env.NEXT_PUBLIC_PADDLE_NOBILITY_PRICE_ID,
-  emperor: process.env.NEXT_PUBLIC_PADDLE_EMPEROR_PRICE_ID
+  bronze: process.env.NEXT_PUBLIC_PADDLE_BRONZE_PRICE_ID,
+  silver: process.env.NEXT_PUBLIC_PADDLE_SILVER_PRICE_ID,
+  gold: process.env.NEXT_PUBLIC_PADDLE_GOLD_PRICE_ID,
+  platinum: process.env.NEXT_PUBLIC_PADDLE_PLATINUM_PRICE_ID,
 }
 
-export default function PaddlePayButton({
-  plan
-}: {
-  plan: string
-}) {
+export default function PaddlePayButton({ plan }: { plan: string }) {
   const [ready, setReady] = useState(false)
 
   useEffect(() => {
@@ -28,22 +25,18 @@ export default function PaddlePayButton({
     }
 
     const script = document.createElement("script")
-
     script.src = "https://cdn.paddle.com/paddle/v2/paddle.js"
     script.async = true
 
     script.onload = () => {
       if (!window.Paddle) return
 
-      if (
-        process.env.NEXT_PUBLIC_PADDLE_ENV === "sandbox"
-      ) {
+      if (process.env.NEXT_PUBLIC_PADDLE_ENV === "sandbox") {
         window.Paddle.Environment.set("sandbox")
       }
 
       window.Paddle.Initialize({
-        token:
-          process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN
+        token: process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN
       })
 
       setReady(true)
@@ -55,18 +48,18 @@ export default function PaddlePayButton({
   const openCheckout = () => {
     const priceId = priceMap[plan]
 
-    if (!window.Paddle || !ready || !priceId) {
-      alert("Payment system is not ready.")
+    if (!priceId) {
+      alert("Price ID is missing for this tier.")
+      return
+    }
+
+    if (!ready || !window.Paddle) {
+      alert("Payment system is still loading. Please try again.")
       return
     }
 
     window.Paddle.Checkout.open({
-      items: [
-        {
-          priceId,
-          quantity: 1
-        }
-      ],
+      items: [{ priceId, quantity: 1 }],
       settings: {
         displayMode: "overlay",
         theme: "dark",
