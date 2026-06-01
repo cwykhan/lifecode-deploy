@@ -12,7 +12,7 @@ const priceMap: Record<string, string | undefined> = {
   bronze: process.env.NEXT_PUBLIC_PADDLE_BRONZE_PRICE_ID,
   silver: process.env.NEXT_PUBLIC_PADDLE_SILVER_PRICE_ID,
   gold: process.env.NEXT_PUBLIC_PADDLE_GOLD_PRICE_ID,
-  platinum: process.env.NEXT_PUBLIC_PADDLE_PLATINUM_PRICE_ID,
+  platinum: process.env.NEXT_PUBLIC_PADDLE_PLATINUM_PRICE_ID
 }
 
 export default function PaddlePayButton({ plan }: { plan: string }) {
@@ -49,12 +49,12 @@ export default function PaddlePayButton({ plan }: { plan: string }) {
     const priceId = priceMap[plan]
 
     if (!priceId) {
-      alert("Price ID is missing for this tier.")
+      alert(`Price ID is missing for tier: ${plan}`)
       return
     }
 
     if (!ready || !window.Paddle) {
-      alert("Payment system is still loading. Please try again.")
+      alert("Payment system is loading. Please try again.")
       return
     }
 
@@ -63,8 +63,9 @@ export default function PaddlePayButton({ plan }: { plan: string }) {
       settings: {
         displayMode: "overlay",
         theme: "dark",
-        successUrl: window.location.origin
-      }
+        successUrl: `${window.location.origin}/success?plan=${plan}`
+      },
+      customData: { plan }
     })
   }
 
@@ -73,7 +74,7 @@ export default function PaddlePayButton({ plan }: { plan: string }) {
       onClick={openCheckout}
       className="mt-8 rounded-2xl border border-yellow-300 bg-yellow-500/10 px-8 py-4 text-lg font-black text-yellow-100 transition hover:bg-yellow-500/20"
     >
-      UNLOCK FULL CELESTIAL ANALYSIS
+      UNLOCK {plan.toUpperCase()} REPORT
     </button>
   )
 }

@@ -288,6 +288,7 @@ export default function Home() {
               <a href="/privacy" className="hover:text-white">Privacy Policy</a>
               <a href="/terms" className="hover:text-white">Terms of Service</a>
               <a href="/refund" className="hover:text-white">Refund Policy</a>
+              <a href="/contact" className="hover:text-white">conract</a>
             </div>
             <p className="mt-4">© LifeCode AI. Digital destiny analysis service.</p>
           </footer>
