@@ -8,6 +8,7 @@ import ZodiacAvatar from "@/components/ZodiacAvatar"
 import DestinyScore from "@/components/DestinyScore"
 import DestinyCharacter from "@/components/DestinyCharacter"
 import WealthRelationshipStyle from "@/components/WealthRelationshipStyle"
+import PlanetBirthSignature from "@/components/PlanetBirthSignature"
 
 const paidPlans = [
   { id: "bronze", name: "BRONZE", price: "$5", desc: "Core reading and Useful Energy." },
@@ -174,6 +175,9 @@ export default function Home() {
 
               <div className="grid gap-8 bg-[#242424]/95 p-8">
                 <ZodiacAvatar pillar={pillars.year} />
+
+                <PlanetBirthSignature pillars={pillars} />
+
 
                 <div className="grid gap-6 md:grid-cols-2">
                   <DestinyScore result={result} />

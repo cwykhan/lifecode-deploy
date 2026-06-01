@@ -1,144 +1,243 @@
-const { execFileSync } = require('node:child_process');
-const path = require('node:path');
+const { spawnSync } = require("child_process")
+const path = require("path")
 
-const enginePath = path.resolve(__dirname, '../cal20000/saju-cli');
+const STEMS = [
+  { index: 0, symbol: "T", element: "Tree" },
+  { index: 1, symbol: "t", element: "Tree" },
+  { index: 2, symbol: "F", element: "Fire" },
+  { index: 3, symbol: "f", element: "Fire" },
+  { index: 4, symbol: "E", element: "Earth" },
+  { index: 5, symbol: "e", element: "Earth" },
+  { index: 6, symbol: "M", element: "Metal" },
+  { index: 7, symbol: "m", element: "Metal" },
+  { index: 8, symbol: "W", element: "Water" },
+  { index: 9, symbol: "w", element: "Water" }
+]
 
-const HSE = {
-  w: ['W', 'w'],
-  t: ['T', 't'],
-  f: ['F', 'f', 'e'],
-  m: ['M', 'm'],
-  W: ['E', 'T', 'W'],
-  e: ['w', 'm', 'e'],
-  T: ['E', 'F', 'T'],
-  E: ['t', 'w', 'E'],
-  F: ['E', 'M', 'F'],
-  M: ['E', 'W', 'M']
-};
+const BRANCHES = [
+  { index: 0, symbol: "w", animal: "Rat", element: "Water" },
+  { index: 1, symbol: "e", animal: "Ox", element: "Earth" },
+  { index: 2, symbol: "T", animal: "Tiger", element: "Tree" },
+  { index: 3, symbol: "t", animal: "Rabbit", element: "Tree" },
+  { index: 4, symbol: "E", animal: "Dragon", element: "Earth" },
+  { index: 5, symbol: "F", animal: "Snake", element: "Fire" },
+  { index: 6, symbol: "f", animal: "Horse", element: "Fire" },
+  { index: 7, symbol: "e", animal: "Goat", element: "Earth" },
+  { index: 8, symbol: "M", animal: "Monkey", element: "Metal" },
+  { index: 9, symbol: "m", animal: "Rooster", element: "Metal" },
+  { index: 10, symbol: "E", animal: "Dog", element: "Earth" },
+  { index: 11, symbol: "W", animal: "Pig", element: "Water" }
+]
 
-const ELEMENT = {
-  T: 'Tree', t: 'Tree',
-  F: 'Fire', f: 'Fire',
-  E: 'Earth', e: 'Earth',
-  M: 'Metal', m: 'Metal',
-  W: 'Water', w: 'Water'
-};
+const HIDDEN_SKY_ENERGY = {
+  0: ["W", "w"],          // Rat
+  1: ["w", "m", "e"],     // Ox
+  2: ["E", "F", "T"],     // Tiger
+  3: ["T", "t"],          // Rabbit
+  4: ["t", "w", "E"],     // Dragon
+  5: ["E", "M", "F"],     // Snake
+  6: ["F", "f", "e"],     // Horse
+  7: ["f", "t", "e"],     // Goat
+  8: ["E", "W", "M"],     // Monkey
+  9: ["M", "m"],          // Rooster
+  10: ["m", "f", "E"],    // Dog
+  11: ["E", "T", "W"]     // Pig
+}
 
-const CONTROLS = {
-  Tree: 'Earth',
-  Earth: 'Water',
-  Water: 'Fire',
-  Fire: 'Metal',
-  Metal: 'Tree'
-};
+const BRANCH_WEIGHTS = {
+  year: 10,
+  month: 40,
+  day: 35,
+  hour: 15
+}
 
-const CONTROLLED_BY = {
-  Tree: 'Metal',
-  Fire: 'Water',
-  Earth: 'Tree',
-  Metal: 'Fire',
-  Water: 'Earth'
-};
+const ELEMENTS = ["Tree", "Fire", "Earth", "Metal", "Water"]
 
-function assertInt(name, value, min, max) {
-  const n = Number(value);
-  if (!Number.isInteger(n) || n < min || n > max) {
-    throw new Error(`${name} must be an integer from ${min} to ${max}`);
+const GENERATES = {
+  Tree: "Fire",
+  Fire: "Earth",
+  Earth: "Metal",
+  Metal: "Water",
+  Water: "Tree"
+}
+
+function elementOfStemSymbol(symbol) {
+  const stem = STEMS.find((s) => s.symbol === symbol)
+  return stem ? stem.element : "Earth"
+}
+
+function motherElementOf(element) {
+  return Object.entries(GENERATES).find(([, child]) => child === element)?.[0]
+}
+
+function controllingElementOf(element) {
+  const controls = {
+    Tree: "Earth",
+    Earth: "Water",
+    Water: "Fire",
+    Fire: "Metal",
+    Metal: "Tree"
   }
-  return n;
-}
 
-function addScore(score, symbol, value) {
-  const element = ELEMENT[symbol];
-  if (!element) return;
-  score[element] += value;
-}
-
-function enrichWithHse(pillar) {
-  const branchSymbol = pillar.branch.symbol;
-  const hidden = HSE[branchSymbol] || [];
-  return {
-    ...pillar,
-    branch: {
-      ...pillar.branch,
-      hiddenSkyEnergy: hidden.map((symbol) => ({ symbol, element: ELEMENT[symbol] }))
-    }
-  };
+  return Object.entries(controls).find(([, controlled]) => controlled === element)?.[0]
 }
 
 function calculateFiveEnergy(pillars) {
-  const score = { Tree: 0, Fire: 0, Earth: 0, Metal: 0, Water: 0 };
-
-  // 1차 웹서비스용 가중치: 천간 10점, 지지 본기 15점, HSE 각 3점.
-  // 이후 사용자가 확정한 월지/일간 중심 신강 로직으로 더 세분화할 자리입니다.
-  for (const pillar of Object.values(pillars)) {
-    addScore(score, pillar.stem.symbol, 10);
-    addScore(score, pillar.branch.symbol, 15);
-    for (const h of pillar.branch.hiddenSkyEnergy) addScore(score, h.symbol, 3);
+  const score = {
+    Tree: 0,
+    Fire: 0,
+    Earth: 0,
+    Metal: 0,
+    Water: 0
   }
 
-  const total = Object.values(score).reduce((a, b) => a + b, 0);
-  const ratio = Object.fromEntries(
-    Object.entries(score).map(([k, v]) => [k, Number(((v / total) * 100).toFixed(2))])
-  );
+  // visible sky and earth energy count
+  for (const key of ["year", "month", "day", "hour"]) {
+    const p = pillars[key]
+    if (!p) continue
 
-  return { score, ratio, total };
-}
+    score[p.stem.element] += 1
+    score[p.branch.element] += 1
 
-function judgeStrength(fiveEnergy) {
-  const strongest = Object.entries(fiveEnergy.ratio).sort((a, b) => b[1] - a[1])[0];
-  const value = strongest[1];
-  if (value >= 40) return { level: 'Strong', dominantEnergy: strongest[0], value };
-  if (value >= 30) return { level: 'Balance', dominantEnergy: strongest[0], value };
-  return { level: 'Weak', dominantEnergy: strongest[0], value };
-}
-
-function deriveUsefulEnergy(strength) {
-  return CONTROLLED_BY[strength.dominantEnergy];
-}
-
-function runSajuEngine(input) {
-  const year = assertInt('year', input.year, -9999, 9999);
-  const month = assertInt('month', input.month, 1, 12);
-  const day = assertInt('day', input.day, 1, 31);
-  const hour = assertInt('hour', input.hour, 0, 23);
-  const minute = assertInt('minute', input.minute ?? input.min ?? 0, 0, 59);
-
-  let stdout;
-  try {
-    stdout = execFileSync(enginePath, [year, month, day, hour, minute].map(String), {
-      encoding: 'utf8',
-      stdio: ['ignore', 'pipe', 'pipe']
-    });
-  } catch (error) {
-    throw new Error(`C engine failed: ${error.stderr?.toString?.() || error.message}`);
+    // HSE light support
+    const hse = HIDDEN_SKY_ENERGY[p.branch.index] || []
+    for (const stemSymbol of hse) {
+      const element = elementOfStemSymbol(stemSymbol)
+      score[element] += 0.25
+    }
   }
 
-  const raw = JSON.parse(stdout);
-  const pillars = Object.fromEntries(
-    Object.entries(raw.pillars).map(([name, pillar]) => [name, enrichWithHse(pillar)])
-  );
-  const fiveEnergy = calculateFiveEnergy(pillars);
-  const strength = judgeStrength(fiveEnergy);
+  const total = Object.values(score).reduce((a, b) => a + b, 0)
+
+  const ratio = {}
+  for (const element of ELEMENTS) {
+    ratio[element] = Number(((score[element] / total) * 100).toFixed(2))
+  }
+
+  return {
+    score,
+    ratio
+  }
+}
+
+function calculateDayStrength(pillars) {
+  const dayEnergy = pillars.day.stem.element
+  const motherEnergy = motherElementOf(dayEnergy)
+
+  let supportScore = 0
+  let detail = []
+
+  for (const key of ["year", "month", "day", "hour"]) {
+    const branch = pillars[key].branch
+    const weight = BRANCH_WEIGHTS[key]
+
+    let gained = 0
+
+    if (branch.element === dayEnergy) {
+      gained += weight
+      detail.push(`${key} branch supports Day Energy directly: +${weight}`)
+    }
+
+    if (branch.element === motherEnergy) {
+      gained += weight * 0.7
+      detail.push(`${key} branch generates Day Energy: +${Number((weight * 0.7).toFixed(2))}`)
+    }
+
+    const hse = HIDDEN_SKY_ENERGY[branch.index] || []
+    const hseWeight = weight * 0.3
+    const eachHseWeight = hse.length ? hseWeight / hse.length : 0
+
+    for (const stemSymbol of hse) {
+      const hseElement = elementOfStemSymbol(stemSymbol)
+
+      if (hseElement === dayEnergy) {
+        gained += eachHseWeight
+        detail.push(`${key} HSE supports Day Energy: +${Number(eachHseWeight.toFixed(2))}`)
+      }
+
+      if (hseElement === motherEnergy) {
+        gained += eachHseWeight * 0.7
+        detail.push(`${key} HSE generates Day Energy: +${Number((eachHseWeight * 0.7).toFixed(2))}`)
+      }
+    }
+
+    supportScore += gained
+  }
+
+  const value = Number(supportScore.toFixed(2))
+
+  let level = "Weak"
+  if (value >= 40) level = "Strong"
+  else if (value >= 30) level = "Balance"
+
+  return {
+    value,
+    level,
+    dayEnergy,
+    motherEnergy,
+    dominantEnergy: dayEnergy,
+    detail
+  }
+}
+
+function calculateUsefulEnergy(strength) {
+  const dayEnergy = strength.dayEnergy
+
+  if (strength.level === "Strong") {
+    return controllingElementOf(dayEnergy)
+  }
+
+  if (strength.level === "Weak") {
+    return strength.motherEnergy
+  }
+
+  return dayEnergy
+}
+
+function normalizeCResult(raw) {
+  const pillars = raw.pillars
+
+  const fiveEnergy = calculateFiveEnergy(pillars)
+  const strength = calculateDayStrength(pillars)
+  const usefulEnergy = calculateUsefulEnergy(strength)
 
   return {
     ...raw,
-    pillars,
     fiveEnergy,
     strength,
-    usefulEnergy: deriveUsefulEnergy(strength),
-    meta: {
-      source: 'CAL20000 C engine via Node.js bridge',
-      notation: 'LifeCode English Saju notation',
-      hse: 'hidden sky energy'
+    usefulEnergy
+  }
+}
+
+function runSajuEngine(year, month, day, hour, minute) {
+  const cliPath = path.join(__dirname, "..", "cal20000", "saju-cli")
+
+  const result = spawnSync(
+    cliPath,
+    [String(year), String(month), String(day), String(hour), String(minute)],
+    {
+      encoding: "utf-8"
     }
-  };
+  )
+
+  if (result.error) {
+    throw new Error(`C engine failed: ${result.error.message}`)
+  }
+
+  if (result.status !== 0) {
+    throw new Error(`C engine failed: ${result.stderr}`)
+  }
+
+  const raw = JSON.parse(result.stdout)
+  return normalizeCResult(raw)
 }
 
 if (require.main === module) {
-  const [year, month, day, hour, minute = '0'] = process.argv.slice(2);
-  const result = runSajuEngine({ year, month, day, hour, minute });
-  console.log(JSON.stringify(result, null, 2));
+  const [year, month, day, hour, minute] = process.argv.slice(2).map(Number)
+  const result = runSajuEngine(year, month, day, hour, minute)
+  console.log(JSON.stringify(result))
 }
 
-module.exports = { runSajuEngine };
+module.exports = {
+  runSajuEngine
+}
