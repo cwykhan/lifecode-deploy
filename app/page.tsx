@@ -46,18 +46,17 @@ export default function Home() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     const unlocked = params.get("unlocked")
-    const savedPlan = localStorage.getItem("paidPlan") || ""
     const savedResult = localStorage.getItem("lastSajuResult")
 
-    if (savedPlan) {
-      setPaidPlan(savedPlan)
-      setSelectedPlan(savedPlan)
-    }
+    if (unlocked) {
+      setPaidPlan(unlocked)
+      setSelectedPlan(unlocked)
 
-    if (unlocked && savedResult) {
-      try {
-        setResult(JSON.parse(savedResult))
-      } catch {}
+      if (savedResult) {
+        try {
+          setResult(JSON.parse(savedResult))
+        } catch {}
+      }
     }
   }, [])
 
@@ -282,22 +281,30 @@ export default function Home() {
 
                   <div className="mt-8 rounded-2xl border border-white/10 bg-black/70 p-7">
                     <h3 className="text-2xl font-black text-yellow-200">
-                      {selectedPlan.toUpperCase()} Locked Preview
+                      {paidPlan === selectedPlan ? `${selectedPlan.toUpperCase()} Report Unlocked` : `${selectedPlan.toUpperCase()} Locked Preview`}
                     </h3>
 
-                    <div className="mt-5 rounded-2xl border border-yellow-300/20 bg-black/70 p-6 text-lg leading-9 text-gray-300">
-                      <p className="font-black text-yellow-200">Locked Premium Sections</p>
-                      <ul className="mt-4 list-disc space-y-2 pl-6">
-                        <li>Career direction and work pattern</li>
-                        <li>Wealth and money flow tendency</li>
-                        <li>Relationship and partner dynamics</li>
-                        <li>Health imbalance signal</li>
-                        <li>Hidden risk and correction strategy</li>
-                        <li>Useful Energy deep interpretation</li>
-                      </ul>
-                    </div>
+                    {paidPlan === selectedPlan ? (
+                      <div className="mt-5 whitespace-pre-line rounded-2xl border border-yellow-300/30 bg-black/80 p-6 text-lg leading-9 text-gray-200">
+                        {selectedPlan === "bronze" ? getBronzeReport(result) : report}
+                      </div>
+                    ) : (
+                      <>
+                        <div className="mt-5 rounded-2xl border border-yellow-300/20 bg-black/70 p-6 text-lg leading-9 text-gray-300">
+                          <p className="font-black text-yellow-200">Locked Premium Sections</p>
+                          <ul className="mt-4 list-disc space-y-2 pl-6">
+                            <li>Career direction and work pattern</li>
+                            <li>Wealth and money flow tendency</li>
+                            <li>Relationship and partner dynamics</li>
+                            <li>Health imbalance signal</li>
+                            <li>Hidden risk and correction strategy</li>
+                            <li>Useful Energy deep interpretation</li>
+                          </ul>
+                        </div>
 
-                    <PayPalButton plan={selectedPlan} />
+                        <PayPalButton plan={selectedPlan} />
+                      </>
+                    )}
                   </div>
                 </div>
 
@@ -316,7 +323,7 @@ export default function Home() {
               <a href="/privacy" className="hover:text-white">Privacy Policy</a>
               <a href="/terms" className="hover:text-white">Terms of Service</a>
               <a href="/refund" className="hover:text-white">Refund Policy</a>
-              <a href="/contact" className="hover:text-white">conract</a>
+              <a href="/contact" className="hover:text-white">Contact</a>
             </div>
             <p className="mt-4">© LifeCode AI. Digital destiny analysis service.</p>
           </footer>
