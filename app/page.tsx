@@ -1,14 +1,16 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { generateReport } from "@/lib/reportText"
+import { getBronzeReport } from "@/lib/premiumReports"
 import { generateDestinyExperience } from "@/lib/destinyCode"
-import PaddlePayButton from "@/components/PaddlePayButton"
+import PayPalButton from "@/components/PayPalButton"
 import ZodiacAvatar from "@/components/ZodiacAvatar"
 import DestinyScore from "@/components/DestinyScore"
 import DestinyCharacter from "@/components/DestinyCharacter"
 import WealthRelationshipStyle from "@/components/WealthRelationshipStyle"
 import PlanetBirthSignature from "@/components/PlanetBirthSignature"
+import CosmicIdentity from "@/components/CosmicIdentity"
 
 const paidPlans = [
   { id: "bronze", name: "BRONZE", price: "$5", desc: "Core reading and Useful Energy." },
@@ -36,9 +38,28 @@ export default function Home() {
   const [birthDate, setBirthDate] = useState("1976-11-11")
   const [birthTime, setBirthTime] = useState("14:30")
   const [selectedPlan, setSelectedPlan] = useState("bronze")
+  const [paidPlan, setPaidPlan] = useState("")
   const [result, setResult] = useState<any>(null)
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const unlocked = params.get("unlocked")
+    const savedPlan = localStorage.getItem("paidPlan") || ""
+    const savedResult = localStorage.getItem("lastSajuResult")
+
+    if (savedPlan) {
+      setPaidPlan(savedPlan)
+      setSelectedPlan(savedPlan)
+    }
+
+    if (unlocked && savedResult) {
+      try {
+        setResult(JSON.parse(savedResult))
+      } catch {}
+    }
+  }, [])
 
   const decode = async () => {
     setLoading(true)
@@ -63,6 +84,7 @@ export default function Home() {
       }
 
       setResult(data)
+      localStorage.setItem("lastSajuResult", JSON.stringify(data))
     } catch (e) {
       setError(String(e))
     } finally {
@@ -178,6 +200,8 @@ export default function Home() {
 
                 <PlanetBirthSignature pillars={pillars} />
 
+                <CosmicIdentity result={result} />
+
 
                 <div className="grid gap-6 md:grid-cols-2">
                   <DestinyScore result={result} />
@@ -273,7 +297,7 @@ export default function Home() {
                       </ul>
                     </div>
 
-                    <PaddlePayButton plan={selectedPlan} />
+                    <PayPalButton plan={selectedPlan} />
                   </div>
                 </div>
 

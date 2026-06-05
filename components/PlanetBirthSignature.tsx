@@ -1,27 +1,27 @@
 "use client"
 
 const stemPlanet: Record<string, any> = {
-  T: { planet: "Jupiter", image: "/images/planet-jupiter.png", energy: "Tree", polarity: "Yang", tone: "Expansion, growth, vision, and movement" },
-  t: { planet: "Jupiter", image: "/images/planet-jupiter.png", energy: "Tree", polarity: "Um", tone: "Adaptation, learning, inner growth, and flexibility" },
+  T: { planet: "Jupiter", image: "/images/planet-jupiter.png", energy: "Tree", polarity: "Sunlit", tone: "Expansion, growth, vision, and movement" },
+  t: { planet: "Jupiter", image: "/images/planet-jupiter.png", energy: "Tree", polarity: "Moonlit", tone: "Adaptation, learning, inner growth, and flexibility" },
 
-  F: { planet: "Mars", image: "/images/planet-mars.png", energy: "Fire", polarity: "Yang", tone: "Passion, action, visibility, and direct power" },
-  f: { planet: "Mars", image: "/images/planet-mars.png", energy: "Fire", polarity: "Um", tone: "Inner flame, sensitivity, warmth, and hidden intensity" },
+  F: { planet: "Mars", image: "/images/planet-mars.png", energy: "Fire", polarity: "Sunlit", tone: "Passion, action, visibility, and direct power" },
+  f: { planet: "Mars", image: "/images/planet-mars.png", energy: "Fire", polarity: "Moonlit", tone: "Inner flame, sensitivity, warmth, and hidden intensity" },
 
-  E: { planet: "Earth", image: "/images/planet-earth.png", energy: "Earth", polarity: "Yang", tone: "Stability, structure, responsibility, and gravity" },
-  e: { planet: "Earth", image: "/images/planet-earth.png", energy: "Earth", polarity: "Um", tone: "Nurturing ground, storage, patience, and silent strength" },
+  E: { planet: "Earth", image: "/images/planet-earth.png", energy: "Earth", polarity: "Sunlit", tone: "Stability, structure, responsibility, and gravity" },
+  e: { planet: "Earth", image: "/images/planet-earth.png", energy: "Earth", polarity: "Moonlit", tone: "Nurturing ground, storage, patience, and silent strength" },
 
-  M: { planet: "Venus", image: "/images/planet-venus.png", energy: "Metal", polarity: "Yang", tone: "Judgment, precision, discipline, and refinement" },
-  m: { planet: "Venus", image: "/images/planet-venus.png", energy: "Metal", polarity: "Um", tone: "Beauty, elegance, internal order, and selective clarity" },
+  M: { planet: "Venus", image: "/images/planet-venus.png", energy: "Metal", polarity: "Sunlit", tone: "Judgment, precision, discipline, and refinement" },
+  m: { planet: "Venus", image: "/images/planet-venus.png", energy: "Metal", polarity: "Moonlit", tone: "Beauty, elegance, internal order, and selective clarity" },
 
-  W: { planet: "Mercury", image: "/images/planet-mercury.png", energy: "Water", polarity: "Yang", tone: "Movement, intelligence, flow, and strategy" },
-  w: { planet: "Mercury", image: "/images/planet-mercury.png", energy: "Water", polarity: "Um", tone: "Depth, memory, intuition, and hidden knowledge" }
+  W: { planet: "Mercury", image: "/images/planet-mercury.png", energy: "Water", polarity: "Sunlit", tone: "Movement, intelligence, flow, and strategy" },
+  w: { planet: "Mercury", image: "/images/planet-mercury.png", energy: "Water", polarity: "Moonlit", tone: "Depth, memory, intuition, and hidden knowledge" }
 }
 
 const seasonalEarthByBranchIndex: Record<number, any> = {
-  4: { name: "Spring Earth", field: "Dragon Field", polarity: "Yang", image: "/images/earth-spring.png", desc: "Earth opening after winter, carrying the pressure of spring growth." },
-  7: { name: "Summer Earth", field: "Goat Field", polarity: "Um", image: "/images/earth-summer.png", desc: "Heated Earth, fertile, emotional, and internally dense." },
-  10: { name: "Autumn Earth", field: "Dog Field", polarity: "Yang", image: "/images/earth-autumn.png", desc: "Earth after harvest, carrying judgment, storage, and transition." },
-  1: { name: "Winter Earth", field: "Ox Field", polarity: "Um", image: "/images/earth-winter.png", desc: "Frozen Earth, quiet, hidden, and deeply stored." }
+  4: { name: "Spring Earth", field: "Dragon Field", polarity: "Sunlit", image: "/images/earth-spring.png", desc: "Earth opening after winter, carrying the pressure of spring growth." },
+  7: { name: "Summer Earth", field: "Goat Field", polarity: "Moonlit", image: "/images/earth-summer.png", desc: "Heated Earth, fertile, emotional, and internally dense." },
+  10: { name: "Autumn Earth", field: "Dog Field", polarity: "Sunlit", image: "/images/earth-autumn.png", desc: "Earth after harvest, carrying judgment, storage, and transition." },
+  1: { name: "Winter Earth", field: "Ox Field", polarity: "Moonlit", image: "/images/earth-winter.png", desc: "Frozen Earth, quiet, hidden, and deeply stored." }
 }
 
 export default function PlanetBirthSignature({ pillars }: { pillars: any }) {
@@ -47,7 +47,7 @@ export default function PlanetBirthSignature({ pillars }: { pillars: any }) {
 
         <div>
           <h2 className="text-5xl font-black text-yellow-100">
-            Born under {p.planet}
+            {p.polarity} {p.planet}
           </h2>
 
           <p className="mt-4 text-2xl font-black text-blue-200">
@@ -56,7 +56,7 @@ export default function PlanetBirthSignature({ pillars }: { pillars: any }) {
 
           <p className="mt-5 text-xl leading-9 text-gray-200">
             Your Day Sky Energy is <span className="font-black text-yellow-200">{dayStem}</span>.
-            This means your core self was born under the {p.polarity} current of {p.planet}.
+            This means your core self was born under the {p.polarity.toLowerCase()} current of {p.planet}.
           </p>
 
           <p className="mt-4 text-lg leading-8 text-gray-300">
