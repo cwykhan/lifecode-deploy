@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { generateReport } from "@/lib/reportText"
-import { getBronzeReport } from "@/lib/premiumReports"
+import { getBronzeReport, getSilverReport, getGoldReport, getPlatinumReport } from "@/lib/premiumReports"
 import { generateDestinyExperience } from "@/lib/destinyCode"
 import PayPalButton from "@/components/PayPalButton"
 import ZodiacAvatar from "@/components/ZodiacAvatar"
@@ -286,7 +286,15 @@ export default function Home() {
 
                     {paidPlan === selectedPlan ? (
                       <div className="mt-5 whitespace-pre-line rounded-2xl border border-yellow-300/30 bg-black/80 p-6 text-lg leading-9 text-gray-200">
-                        {selectedPlan === "bronze" ? getBronzeReport(result) : report}
+                        {selectedPlan === "bronze"
+                          ? getBronzeReport(result)
+                          : selectedPlan === "silver"
+                          ? getSilverReport(result)
+                          : selectedPlan === "gold"
+                          ? getGoldReport(result)
+                          : selectedPlan === "platinum"
+                          ? getPlatinumReport(result)
+                          : report}
                       </div>
                     ) : (
                       <>
