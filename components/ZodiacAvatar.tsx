@@ -23,11 +23,15 @@ const colorMap: Record<string, string> = {
   Water: "Black"
 }
 
-export default function ZodiacAvatar({ pillar }: { pillar: any }) {
+import { getFamilyRootSignal } from "@/lib/tenSpirits"
+
+export default function ZodiacAvatar({ pillar, result }: { pillar: any; result?: any }) {
   const branchIndex = pillar?.branch?.index ?? 0
   const animal = animalByIndex[branchIndex] || animalByIndex[0]
   const color = colorMap[pillar?.stem?.element] || "Cosmic"
   const title = `${color} ${animal.name}`
+
+  const familyRoot = result ? getFamilyRootSignal(result) : null
 
   return (
     <div className="rounded-3xl border border-yellow-400/30 bg-black/60 p-8 shadow-[0_0_60px_rgba(255,215,120,0.16)]">
@@ -58,6 +62,19 @@ export default function ZodiacAvatar({ pillar }: { pillar: any }) {
             {pillar?.stem?.element} sky energy fused with {pillar?.branch?.element} earth energy.
           </p>
         </div>
+      {familyRoot && (
+          <div className="mt-5 rounded-2xl border border-yellow-300/20 bg-yellow-950/20 p-5">
+            <p className="text-xs font-black uppercase tracking-[0.35em] text-yellow-300">
+              Family Root Signal
+            </p>
+            <h3 className="mt-3 text-2xl font-black text-yellow-100">
+              {familyRoot.title}
+            </h3>
+            <p className="mt-3 text-sm leading-7 text-gray-300">
+              {familyRoot.summary}
+            </p>
+          </div>
+        )}
       </div>
     </div>
   )

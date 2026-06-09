@@ -1,5 +1,7 @@
 "use client"
 
+import { getDayBranchSpiritProfile } from "@/lib/tenSpirits"
+
 const stemPlanet: Record<string, any> = {
   T: { planet: "Jupiter", image: "/images/planet-jupiter.png", energy: "Tree", polarity: "Sunlit", tone: "Expansion, growth, vision, and movement" },
   t: { planet: "Jupiter", image: "/images/planet-jupiter.png", energy: "Tree", polarity: "Moonlit", tone: "Adaptation, learning, inner growth, and flexibility" },
@@ -24,11 +26,12 @@ const seasonalEarthByBranchIndex: Record<number, any> = {
   1: { name: "Winter Earth", field: "Ox Field", polarity: "Moonlit", image: "/images/earth-winter.png", desc: "Frozen Earth, quiet, hidden, and deeply stored." }
 }
 
-export default function PlanetBirthSignature({ pillars }: { pillars: any }) {
+export default function PlanetBirthSignature({ pillars, result }: { pillars: any; result?: any }) {
   const dayStem = pillars?.day?.stem?.symbol || "E"
   const dayBranchIndex = pillars?.day?.branch?.index
   const p = stemPlanet[dayStem] || stemPlanet.E
   const seasonalEarth = seasonalEarthByBranchIndex[dayBranchIndex]
+  const dayBranchSpirits = result ? getDayBranchSpiritProfile(result) : []
 
   return (
     <div className="rounded-3xl border border-yellow-400/30 bg-black/70 p-8 shadow-[0_0_80px_rgba(255,215,120,0.16)]">
@@ -65,6 +68,31 @@ export default function PlanetBirthSignature({ pillars }: { pillars: any }) {
           </p>
         </div>
       </div>
+
+      {dayBranchSpirits.length > 0 && (
+        <div className="mt-8 rounded-3xl border border-blue-300/20 bg-blue-950/20 p-6">
+          <p className="text-sm uppercase tracking-widest text-blue-200">
+            Inner Character from Day Field
+          </p>
+
+          <h3 className="mt-3 text-3xl font-black text-blue-100">
+            Hidden Sky Energy converted into Ten Spirits
+          </h3>
+
+          <div className="mt-5 grid gap-4 md:grid-cols-3">
+            {dayBranchSpirits.map((s: any) => (
+              <div key={s.stem + s.code} className="rounded-2xl border border-white/10 bg-black/60 p-4">
+                <p className="text-sm font-black text-yellow-200">
+                  {s.stem} · {s.name}
+                </p>
+                <p className="mt-2 text-sm leading-6 text-gray-300">
+                  {s.meaning}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {seasonalEarth && (
         <div className="mt-8 rounded-3xl border border-yellow-300/20 bg-yellow-950/20 p-6">
