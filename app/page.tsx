@@ -12,6 +12,7 @@ import WealthRelationshipStyle from "@/components/WealthRelationshipStyle"
 import PlanetBirthSignature from "@/components/PlanetBirthSignature"
 import CosmicIdentity from "@/components/CosmicIdentity"
 import TenSpiritPlainReading from "@/components/TenSpiritPlainReading"
+import MonthField from "@/components/MonthField"
 
 const paidPlans = [
   { id: "bronze", name: "BRONZE", price: "$5", desc: "Core reading and Useful Energy." },
@@ -38,6 +39,7 @@ const energyColor: Record<string, string> = {
 export default function Home() {
   const [birthDate, setBirthDate] = useState("1976-11-11")
   const [birthTime, setBirthTime] = useState("14:30")
+  const [gender, setGender] = useState("male")
   const [selectedPlan, setSelectedPlan] = useState("bronze")
   const [paidPlan, setPaidPlan] = useState("")
   const [result, setResult] = useState<any>(null)
@@ -73,7 +75,7 @@ export default function Home() {
       const res = await fetch("/api/saju", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ year, month, day, hour, minute, plan: "free" })
+        body: JSON.stringify({ year, month, day, hour, minute, gender, plan: "free" })
       })
 
       const data = await res.json()
@@ -153,6 +155,31 @@ export default function Home() {
                       className="w-full rounded-xl border border-white/20 bg-black/80 px-4 py-4 text-lg text-white"
                     />
                   </label>
+
+                  <label className="md:col-span-2">
+                    <span className="mb-2 block text-sm text-gray-300">Gender</span>
+                    <div className="grid grid-cols-2 gap-4">
+                      <button
+                        type="button"
+                        onClick={() => setGender("male")}
+                        className={gender === "male"
+                          ? "rounded-xl border border-yellow-300 bg-yellow-500/20 px-4 py-4 text-lg font-black text-yellow-100"
+                          : "rounded-xl border border-white/20 bg-black/80 px-4 py-4 text-lg font-black text-gray-300"}
+                      >
+                        Male
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setGender("female")}
+                        className={gender === "female"
+                          ? "rounded-xl border border-yellow-300 bg-yellow-500/20 px-4 py-4 text-lg font-black text-yellow-100"
+                          : "rounded-xl border border-white/20 bg-black/80 px-4 py-4 text-lg font-black text-gray-300"}
+                      >
+                        Female
+                      </button>
+                    </div>
+                  </label>
                 </div>
 
                 <button
@@ -201,6 +228,8 @@ export default function Home() {
                 <PlanetBirthSignature pillars={pillars} result={result} />
 
                 <CosmicIdentity result={result} />
+
+                <MonthField result={result} />
 
                 <TenSpiritPlainReading result={result} />
 
