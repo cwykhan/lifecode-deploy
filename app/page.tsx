@@ -5,6 +5,7 @@ import { generateReport } from "@/lib/reportText"
 import { getBronzeReport, getSilverReport, getGoldReport, getPlatinumReport } from "@/lib/premiumReports"
 import { generateDestinyExperience } from "@/lib/destinyCode"
 import PayPalButton from "@/components/PayPalButton"
+import PremiumReportView from "@/components/PremiumReportView"
 import ZodiacAvatar from "@/components/ZodiacAvatar"
 import DestinyScore from "@/components/DestinyScore"
 import DestinyCharacter from "@/components/DestinyCharacter"
@@ -317,17 +318,7 @@ export default function Home() {
                     </h3>
 
                     {paidPlan === selectedPlan ? (
-                      <div className="mt-5 whitespace-pre-line rounded-2xl border border-yellow-300/30 bg-black/80 p-6 text-lg leading-9 text-gray-200">
-                        {selectedPlan === "bronze"
-                          ? getBronzeReport(result)
-                          : selectedPlan === "silver"
-                          ? getSilverReport(result)
-                          : selectedPlan === "gold"
-                          ? getGoldReport(result)
-                          : selectedPlan === "platinum"
-                          ? getPlatinumReport(result)
-                          : report}
-                      </div>
+                      <PremiumReportView result={result} plan={selectedPlan} />
                     ) : (
                       <>
                         <div className="mt-5 rounded-2xl border border-yellow-300/20 bg-black/70 p-6 text-lg leading-9 text-gray-300">
