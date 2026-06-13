@@ -1,6 +1,8 @@
 "use client"
 
 import FiveEnergyDonut from "@/components/FiveEnergyDonut"
+import AnnualFortuneChart from "@/components/AnnualFortuneChart"
+import LifePhaseFortune from "@/components/LifePhaseFortune"
 
 import {
   getBronzeReport,
@@ -148,6 +150,55 @@ export default function PremiumReportView({
           </p>
         </div>
       </div>
+
+      
+      <div className="rounded-3xl border border-emerald-300/20 bg-black/70 p-8">
+        <p className="text-sm uppercase tracking-[0.35em] text-emerald-200">
+          Life Phase Fortune Map
+        </p>
+
+        <h3 className="mt-4 text-4xl font-black text-emerald-100">
+          Early · Youth · Middle · Mature · Later Life
+        </h3>
+
+        <div className="mt-8 space-y-5">
+          {[
+            ["Early Life", "0-19", 58, "Foundation period. Family environment, early learning, and emotional imprint are formed."],
+            ["Youth Fortune", "20-34", 66, "Expansion period. Career direction, relationships, and self-identity begin to take shape."],
+            ["Middle Life", "35-49", 78, "Achievement period. Wealth, career authority, and major life responsibilities become stronger."],
+            ["Mature Life", "50-64", 84, "Influence period. Reputation, leadership, teaching, consulting, or asset consolidation become important."],
+            ["Later Life", "65+", 72, "Legacy period. Wisdom, family influence, accumulated resources, and spiritual direction become central."]
+          ].map(([phase, age, score, desc]: any) => (
+            <div key={phase} className="rounded-2xl border border-white/10 bg-black/60 p-5">
+              <div className="flex items-center justify-between gap-4">
+                <div>
+                  <p className="text-xl font-black text-emerald-100">{phase}</p>
+                  <p className="text-sm text-gray-400">Age {age}</p>
+                </div>
+
+                <p className="text-3xl font-black text-yellow-200">
+                  {score}
+                </p>
+              </div>
+
+              <div className="mt-4 h-4 rounded-full bg-white/10">
+                <div
+                  className="h-4 rounded-full bg-emerald-300"
+                  style={{ width: `${score}%` }}
+                />
+              </div>
+
+              <p className="mt-4 text-sm leading-7 text-gray-300">
+                {desc}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <LifePhaseFortune result={result} />
+
+      <AnnualFortuneChart result={result} />
 
       <div className="rounded-3xl border border-purple-300/20 bg-black/70 p-8">
         <p className="text-sm uppercase tracking-[0.35em] text-purple-200">
