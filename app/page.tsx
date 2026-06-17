@@ -21,7 +21,7 @@ const paidPlans = [
   { id: "bronze", name: "BRONZE", price: "$5", desc: "Core reading and Useful Energy." },
   { id: "silver", name: "SILVER", price: "$15", desc: "Career, balance, and hidden pattern guide." },
   { id: "gold", name: "GOLD", price: "$30", desc: "Career, wealth, relationship, and health report." },
-  { id: "platinum", name: "PLATINUM", price: "$50", desc: "Full strategic LifeCode blueprint." }
+  { id: "platinum", name: "PLATINUM", price: "$50", desc: "Full strategic K-UPFATE blueprint." }
 ]
 
 const reportPlanMap: Record<string, string> = {
@@ -124,18 +124,32 @@ export default function Home() {
               </p>
 
               <h1 className="mt-5 text-7xl font-black tracking-tight text-yellow-100">
-                LifeCode AI
+                K-UPFATE
               </h1>
 
               <p className="mt-6 max-w-3xl text-2xl font-semibold leading-10 text-white">
-                Decode the hidden architecture of human destiny.
+                Decode your hidden life pattern through ancient Korean sky wisdom.
               </p>
+
+              <div className="mt-10 grid gap-5 md:grid-cols-4">
+                {[
+                  ["Planet Signature", "Your core energy pattern and visible life identity."],
+                  ["Career Signature", "Your natural work style, talent direction, and achievement path."],
+                  ["Wealth Signature", "How you create, keep, and expand money through your life pattern."],
+                  ["Relationship Signature", "Your connection style, emotional rhythm, and partner dynamics."]
+                ].map(([title, desc]) => (
+                  <div key={title} className="rounded-2xl border border-yellow-300/20 bg-black/60 p-5 shadow-[0_0_35px_rgba(255,215,120,0.08)]">
+                    <p className="text-lg font-black text-yellow-100">{title}</p>
+                    <p className="mt-3 text-sm leading-6 text-gray-300">{desc}</p>
+                  </div>
+                ))}
+              </div>
 
               <section className="mt-10 rounded-3xl border border-yellow-300/15 bg-black/60 p-8 backdrop-blur-xl">
                 <h2 className="text-2xl font-black text-yellow-100">Free Signal Scan</h2>
 
                 <p className="mt-3 text-gray-300">
-                  Enter your birth data and receive your free LifeCode signal before choosing any premium tier.
+                  Enter your birth data and discover your Planet Signature before choosing any premium tier.
                 </p>
 
                 <div className="mt-8 grid gap-5 md:grid-cols-2">
@@ -288,7 +302,7 @@ export default function Home() {
 
                 <div className="rounded-3xl border border-yellow-500/30 bg-black/60 p-8">
                   <h2 className="text-4xl font-black text-yellow-300">
-                    Unlock Full LifeCode Report
+                    Unlock Full K-UPFATE Report
                   </h2>
 
                   <p className="mt-4 text-lg leading-8 text-gray-300">
@@ -362,7 +376,7 @@ export default function Home() {
               <a href="/refund" className="hover:text-white">Refund Policy</a>
               <a href="/contact" className="hover:text-white">Contact</a>
             </div>
-            <p className="mt-4">© LifeCode AI. Digital destiny analysis service.</p>
+            <p className="mt-4">© K-UPFATE. Ancient Korean sky wisdom for modern life.</p>
           </footer>
         </div>
       </section>
