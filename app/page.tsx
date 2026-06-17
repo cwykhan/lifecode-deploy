@@ -5,6 +5,8 @@ import { generateReport } from "@/lib/reportText"
 import { getBronzeReport, getSilverReport, getGoldReport, getPlatinumReport } from "@/lib/premiumReports"
 import { generateDestinyExperience } from "@/lib/destinyCode"
 import PayPalButton from "@/components/PayPalButton"
+import ShareSignatureButton from "@/components/ShareSignatureButton"
+import FounderPlatinumBanner from "@/components/FounderPlatinumBanner"
 import PremiumReportView from "@/components/PremiumReportView"
 import ZodiacAvatar from "@/components/ZodiacAvatar"
 import DestinyScore from "@/components/DestinyScore"
@@ -293,6 +295,8 @@ export default function Home() {
                     The free scan reveals only the surface structure. Choose a premium tier to unlock deeper interpretation.
                   </p>
 
+                  <FounderPlatinumBanner />
+
                   <div className="mt-8 grid gap-5 md:grid-cols-4">
                     {paidPlans.map((plan) => (
                       <button
@@ -338,6 +342,8 @@ export default function Home() {
                     )}
                   </div>
                 </div>
+
+                <ShareSignatureButton result={result} />
 
                 <button
                   onClick={reset}
