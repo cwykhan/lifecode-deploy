@@ -40,7 +40,7 @@ const energyColor: Record<string, string> = {
 }
 
 export default function Home() {
-  const [birthDate, setBirthDate] = useState("1976-11-11")
+  const [birthDate, setBirthDate] = useState("1976-09-04")
   const [birthTime, setBirthTime] = useState("14:30")
   const [gender, setGender] = useState("male")
   const [selectedPlan, setSelectedPlan] = useState("bronze")
