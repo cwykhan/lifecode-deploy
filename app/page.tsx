@@ -9,6 +9,7 @@ import ShareSignatureButton from "@/components/ShareSignatureButton"
 import FounderPlatinumBanner from "@/components/FounderPlatinumBanner"
 import PremiumReportView from "@/components/PremiumReportView"
 import ZodiacAvatar from "@/components/ZodiacAvatar"
+import CheonmunStarAnimal from "@/components/CheonmunStarAnimal"
 import DestinyScore from "@/components/DestinyScore"
 import DestinyCharacter from "@/components/DestinyCharacter"
 import WealthRelationshipStyle from "@/components/WealthRelationshipStyle"
@@ -88,8 +89,8 @@ export default function Home() {
         return
       }
 
-      setResult(data)
-      localStorage.setItem("lastSajuResult", JSON.stringify(data))
+      setResult({ ...data, input: { year, month, day, hour, minute, gender } })
+      localStorage.setItem("lastSajuResult", JSON.stringify({ ...data, input: { year, month, day, hour, minute, gender } }))
     } catch (e) {
       setError(String(e))
     } finally {
@@ -241,6 +242,8 @@ export default function Home() {
 
               <div className="grid gap-8 bg-[#242424]/95 p-8">
                 <ZodiacAvatar pillar={pillars.year} result={result} />
+
+                <CheonmunStarAnimal result={result} />
 
                 <PlanetBirthSignature pillars={pillars} result={result} />
 
