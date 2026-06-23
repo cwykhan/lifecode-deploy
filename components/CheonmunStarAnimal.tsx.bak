@@ -1,8 +1,4 @@
-
 "use client"
-
-import { starAnimalProfiles } from "@/lib/starAnimalProfiles"
-
 
 const branchName: Record<number, string> = {
   0: "Rat", 1: "Ox", 2: "Tiger", 3: "Rabbit", 4: "Dragon", 5: "Snake",
@@ -24,6 +20,43 @@ const map: Record<number, any[]> = {
   5: [[1,6,"Fire Serpent","불뱀","ik"],[7,12,"Water Earthworm","물지렁이","jin"]]
 }
 
+const profile: Record<string, any> = {
+  청룡: {
+    en: "You are honest, patient, thoughtful, and steady. You prefer comfort and avoid unnecessary conflict.",
+    ko: "정직하고 참을성이 있으며 깊이 생각하는 성향입니다. 편안함을 좋아하고 불필요한 다툼을 피하려는 기질이 있습니다.",
+    career: "Good for planning, management, advisory work, architecture, and long-term responsibility.",
+    wealth: "Wealth grows through patience, trust, and slow accumulation rather than sudden risk.",
+    relation: "You build stable relationships, but you may need time before fully opening your heart."
+  },
+  황금용: {
+    en: "You are gentle, emotional, loyal, and people-oriented. You naturally build trust and harmony.",
+    ko: "온화하고 감성적이며 의리가 강합니다. 사람의 말을 잘 듣고 신뢰를 쌓는 능력이 좋습니다.",
+    career: "Good for leadership, consulting, communication, public-facing roles, and trusted coordination.",
+    wealth: "Money improves when reputation, trust, and relationship capital become assets.",
+    relation: "You are loyal and protective, but emotional disappointment can stay in your heart for a long time."
+  },
+  달토끼: {
+    en: "You are clever, curious, quick to learn, and adaptable. You understand patterns faster than most people.",
+    ko: "영리하고 호기심이 많으며 배우는 속도가 빠릅니다. 다만 조급함을 조심해야 합니다.",
+    career: "Good for research, writing, design, analysis, education, and flexible project work.",
+    wealth: "Wealth comes from information, timing, and smart adaptation.",
+    relation: "You connect easily, but you may dislike heavy or controlling relationships."
+  },
+  달여우: {
+    en: "You are observant, strategic, intuitive, and careful. You read hidden motives well.",
+    ko: "눈치가 빠르고 상황을 세밀하게 읽습니다. 확신이 생기기 전에는 쉽게 움직이지 않는 편입니다.",
+    career: "Good for strategy, investigation, risk analysis, intelligence, planning, and negotiation.",
+    wealth: "You protect money well when you trust your observation and avoid emotional decisions.",
+    relation: "You need trust before intimacy. Once trust is broken, it is difficult to recover."
+  },
+  불호랑이: {
+    en: "You are bold, confident, brave, and action-oriented. Once decided, you move quickly.",
+    ko: "자신감 있고 용감하며 결단력이 강합니다. 마음을 정하면 빠르게 행동합니다.",
+    career: "Good for leadership, sales, crisis response, entrepreneurship, and competitive fields.",
+    wealth: "Big chances appear when courage meets structure. Avoid impulsive over-expansion.",
+    relation: "You are passionate and protective, but direct expression may feel strong to others."
+  }
+}
 
 function fallback(name: string) {
   return {
@@ -43,7 +76,7 @@ export default function CheonmunStarAnimal({ result }: { result: any }) {
   if (!item) return null
 
   const [from, to, enName, koName, img] = item
-  const p = starAnimalProfiles[koName]
+  const p = profile[koName] || fallback(koName)
 
   return (
     <div className="rounded-3xl border border-yellow-300/25 bg-black/70 p-8 shadow-[0_0_70px_rgba(255,215,120,0.12)]">
@@ -91,7 +124,7 @@ export default function CheonmunStarAnimal({ result }: { result: any }) {
         </div>
         <div className="rounded-2xl border border-yellow-300/15 bg-yellow-950/10 p-5">
           <p className="font-black text-yellow-200">Relationship</p>
-          <p className="mt-2 text-sm leading-6 text-gray-300">{p.relationship}</p>
+          <p className="mt-2 text-sm leading-6 text-gray-300">{p.relation}</p>
         </div>
       </div>
     </div>
