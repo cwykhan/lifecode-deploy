@@ -44,11 +44,11 @@ const HIDDEN_SKY_ENERGY = {
   11: ["E", "T", "W"]     // Pig
 }
 
-const BRANCH_WEIGHTS = {
-  year: 10,
+const PILLAR_WEIGHTS = {
   month: 40,
-  day: 35,
-  hour: 15
+  day: 25,
+  hour: 20,
+  year: 15
 }
 
 const ELEMENTS = ["Tree", "Fire", "Earth", "Metal", "Water"]
@@ -120,62 +120,121 @@ function calculateFiveEnergy(pillars) {
   }
 }
 
+function climateUsefulEnergyByMonth(monthBranchIndex, dayEnergy) {
+  // 조후용신 v1: 월지와 일간 오행이 같을 때 계절 조절 우선
+  // 겨울: Fire, 여름: Water, 봄: Metal, 가을: Fire/Water 보정, 토월: Water/Tree 보정
+  if ([11, 0, 1].includes(monthBranchIndex)) return "Fire"       // Pig, Rat, Ox
+  if ([5, 6, 7].includes(monthBranchIndex)) return "Water"       // Snake, Horse, Goat
+  if ([2, 3, 4].includes(monthBranchIndex)) return "Metal"       // Tiger, Rabbit, Dragon
+  if ([8, 9, 10].includes(monthBranchIndex)) return "Fire"       // Monkey, Rooster, Dog
+
+  return controllingElementOf(dayEnergy)
+}
+
+function strengthLevel5(value) {
+  if (value >= 60) return { level: "Very Strong", korean: "극강" }
+  if (value >= 40) return { level: "Strong", korean: "강" }
+  if (value >= 30) return { level: "Balanced", korean: "중화" }
+  if (value >= 20) return { level: "Weak", korean: "약" }
+  return { level: "Very Weak", korean: "극약" }
+}
+
+function addSupport(scoreObj, element, amount, dayEnergy, motherEnergy, detail, label) {
+  if (element === dayEnergy) {
+    scoreObj.value += amount
+    detail.push(`${label} supports Day Energy directly: +${Number(amount.toFixed(2))}`)
+  }
+
+  if (element === motherEnergy) {
+    const v = amount * 0.7
+    scoreObj.value += v
+    detail.push(`${label} generates Day Energy: +${Number(v.toFixed(2))}`)
+  }
+}
+
+function climateUsefulEnergyByMonth(monthBranchIndex, dayEnergy) {
+  // 조후용신 v1: 월지와 일간 오행이 같을 때 계절 조절 우선
+  // 겨울: Fire, 여름: Water, 봄: Metal, 가을: Fire/Water 보정, 토월: Water/Tree 보정
+  if ([11, 0, 1].includes(monthBranchIndex)) return "Fire"       // Pig, Rat, Ox
+  if ([5, 6, 7].includes(monthBranchIndex)) return "Water"       // Snake, Horse, Goat
+  if ([2, 3, 4].includes(monthBranchIndex)) return "Metal"       // Tiger, Rabbit, Dragon
+  if ([8, 9, 10].includes(monthBranchIndex)) return "Fire"       // Monkey, Rooster, Dog
+
+  return controllingElementOf(dayEnergy)
+}
+
+function strengthLevel5(value) {
+  if (value >= 60) return { level: "Very Strong", korean: "극강" }
+  if (value >= 40) return { level: "Strong", korean: "강" }
+  if (value >= 30) return { level: "Balanced", korean: "중화" }
+  if (value >= 20) return { level: "Weak", korean: "약" }
+  return { level: "Very Weak", korean: "극약" }
+}
+
+function addSupport(scoreObj, element, amount, dayEnergy, motherEnergy, detail, label) {
+  if (element === dayEnergy) {
+    scoreObj.value += amount
+    detail.push(`${label} supports Day Energy directly: +${Number(amount.toFixed(2))}`)
+  }
+
+  if (element === motherEnergy) {
+    const v = amount * 0.7
+    scoreObj.value += v
+    detail.push(`${label} generates Day Energy: +${Number(v.toFixed(2))}`)
+  }
+}
+
 function calculateDayStrength(pillars) {
   const dayEnergy = pillars.day.stem.element
   const motherEnergy = motherElementOf(dayEnergy)
+  const monthBranch = pillars.month.branch
+  const detail = []
+  const scoreObj = { value: 0 }
 
-  let supportScore = 0
-  let detail = []
+  // 1. Month branch + hidden sky energy = 40%
+  {
+    const weight = PILLAR_WEIGHTS.month
+    addSupport(scoreObj, monthBranch.element, weight * 0.7, dayEnergy, motherEnergy, detail, "month branch")
 
-  for (const key of ["year", "month", "day", "hour"]) {
-    const branch = pillars[key].branch
-    const weight = BRANCH_WEIGHTS[key]
-
-    let gained = 0
-
-    if (branch.element === dayEnergy) {
-      gained += weight
-      detail.push(`${key} branch supports Day Energy directly: +${weight}`)
-    }
-
-    if (branch.element === motherEnergy) {
-      gained += weight * 0.7
-      detail.push(`${key} branch generates Day Energy: +${Number((weight * 0.7).toFixed(2))}`)
-    }
-
-    const hse = HIDDEN_SKY_ENERGY[branch.index] || []
-    const hseWeight = weight * 0.3
-    const eachHseWeight = hse.length ? hseWeight / hse.length : 0
-
+    const hse = HIDDEN_SKY_ENERGY[monthBranch.index] || []
+    const each = hse.length ? (weight * 0.3) / hse.length : 0
     for (const stemSymbol of hse) {
-      const hseElement = elementOfStemSymbol(stemSymbol)
-
-      if (hseElement === dayEnergy) {
-        gained += eachHseWeight
-        detail.push(`${key} HSE supports Day Energy: +${Number(eachHseWeight.toFixed(2))}`)
-      }
-
-      if (hseElement === motherEnergy) {
-        gained += eachHseWeight * 0.7
-        detail.push(`${key} HSE generates Day Energy: +${Number((eachHseWeight * 0.7).toFixed(2))}`)
-      }
+      addSupport(scoreObj, elementOfStemSymbol(stemSymbol), each, dayEnergy, motherEnergy, detail, "month HSE")
     }
-
-    supportScore += gained
   }
 
-  const value = Number(supportScore.toFixed(2))
+  // 2. Day pillar = 25%, Hour pillar = 20%, Year pillar = 15%
+  // stem 40%, branch 40%, hidden stems 20%
+  for (const key of ["day", "hour", "year"]) {
+    const p = pillars[key]
+    const weight = PILLAR_WEIGHTS[key]
 
-  let level = "Weak"
-  if (value >= 40) level = "Strong"
-  else if (value >= 30) level = "Balance"
+    addSupport(scoreObj, p.stem.element, weight * 0.4, dayEnergy, motherEnergy, detail, `${key} stem`)
+    addSupport(scoreObj, p.branch.element, weight * 0.4, dayEnergy, motherEnergy, detail, `${key} branch`)
+
+    const hse = HIDDEN_SKY_ENERGY[p.branch.index] || []
+    const each = hse.length ? (weight * 0.2) / hse.length : 0
+    for (const stemSymbol of hse) {
+      addSupport(scoreObj, elementOfStemSymbol(stemSymbol), each, dayEnergy, motherEnergy, detail, `${key} HSE`)
+    }
+  }
+
+  const value = Number(scoreObj.value.toFixed(2))
+  const lv = strengthLevel5(value)
+  const climateMode = monthBranch.element === dayEnergy
 
   return {
     value,
-    level,
+    score: value,
+    level: lv.level,
+    koreanLevel: lv.korean,
     dayEnergy,
     motherEnergy,
     dominantEnergy: dayEnergy,
+    monthBranchEnergy: monthBranch.element,
+    climateMode,
+    climateUsefulEnergy: climateMode ? climateUsefulEnergyByMonth(monthBranch.index, dayEnergy) : null,
+    method: "MonthBranchHSE40-Day25-Hour20-Year15",
     detail
   }
 }
@@ -183,11 +242,17 @@ function calculateDayStrength(pillars) {
 function calculateUsefulEnergy(strength) {
   const dayEnergy = strength.dayEnergy
 
-  if (strength.level === "Strong") {
+  // 월지와 일간 오행이 같으면 조후용신 우선
+  if (strength.climateMode && strength.climateUsefulEnergy) {
+    return strength.climateUsefulEnergy
+  }
+
+  // 억부용신 기본
+  if (strength.level === "Very Strong" || strength.level === "Strong") {
     return controllingElementOf(dayEnergy)
   }
 
-  if (strength.level === "Weak") {
+  if (strength.level === "Weak" || strength.level === "Very Weak") {
     return strength.motherEnergy
   }
 

@@ -40,9 +40,17 @@ const energyColor: Record<string, string> = {
   Water: "bg-neutral-950"
 }
 
+function getTodayLocalDate() {
+  const now = new Date()
+  const yyyy = now.getFullYear()
+  const mm = String(now.getMonth() + 1).padStart(2, "0")
+  const dd = String(now.getDate()).padStart(2, "0")
+  return `${yyyy}-${mm}-${dd}`
+}
+
 export default function Home() {
-  const [birthDate, setBirthDate] = useState("1976-09-04")
-  const [birthTime, setBirthTime] = useState("14:30")
+  const [birthDate, setBirthDate] = useState(getTodayLocalDate())
+  const [birthTime, setBirthTime] = useState("00:00")
   const [gender, setGender] = useState("male")
   const [selectedPlan, setSelectedPlan] = useState("bronze")
   const [paidPlan, setPaidPlan] = useState("")
