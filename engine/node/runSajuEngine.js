@@ -94,6 +94,12 @@ function normalizeCResult(raw) {
     motherElementOf
   })
 
+  const dominantEnergy = ELEMENTS.reduce((a, b) =>
+    fiveEnergy.ratio[a] >= fiveEnergy.ratio[b] ? a : b
+  )
+
+  strength.dominantEnergy = dominantEnergy
+
   const usefulSet = calculateUsefulEnergySet(strength, pillars)
 
   return {

@@ -57,6 +57,7 @@ export default function Home() {
   const [result, setResult] = useState<any>(null)
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
+  const [visitorCount, setVisitorCount] = useState<number>(10000)
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
@@ -73,6 +74,31 @@ export default function Home() {
         } catch {}
       }
     }
+  }, [])
+
+
+  useEffect(() => {
+    const loadVisitorCount = async () => {
+      try {
+        const res = await fetch("/api/visitors", {
+          method: "POST",
+          cache: "no-store"
+        })
+
+        const data = await res.json()
+
+        if (
+          typeof data?.count === "number" &&
+          Number.isFinite(data.count)
+        ) {
+          setVisitorCount(Math.max(10000, data.count))
+        }
+      } catch {
+        setVisitorCount(10000)
+      }
+    }
+
+    loadVisitorCount()
   }, [])
 
   const decode = async () => {
@@ -117,7 +143,7 @@ export default function Home() {
   const report = result ? generateReport(result, reportPlanMap[selectedPlan]) : ""
 
   return (
-    <main className="min-h-screen bg-[#171717] text-white">
+    <main className="min-h-screen bg-[#f5f3ee] text-slate-900">
       <section
         className="min-h-screen bg-cover bg-top bg-no-repeat"
         style={{
@@ -132,7 +158,7 @@ export default function Home() {
                 Ancient Korean Astronomy Engine
               </p>
 
-              <h1 className="mt-5 text-7xl font-black tracking-tight text-yellow-100">
+              <h1 className="mt-5 text-7xl font-black tracking-tight text-amber-900">
                 K-UPFATE
               </h1>
 
@@ -148,22 +174,22 @@ export default function Home() {
                   ["Relationship Signature", "Your connection style, emotional rhythm, and partner dynamics."]
                 ].map(([title, desc]) => (
                   <div key={title} className="rounded-2xl border border-yellow-300/20 bg-black/60 p-5 shadow-[0_0_35px_rgba(255,215,120,0.08)]">
-                    <p className="text-lg font-black text-yellow-100">{title}</p>
-                    <p className="mt-3 text-sm leading-6 text-gray-300">{desc}</p>
+                    <p className="text-lg font-black text-amber-900">{title}</p>
+                    <p className="mt-3 text-sm leading-6 text-slate-700">{desc}</p>
                   </div>
                 ))}
               </div>
 
               <section className="mt-10 rounded-3xl border border-yellow-300/15 bg-black/60 p-8 backdrop-blur-xl">
-                <h2 className="text-2xl font-black text-yellow-100">Free Signal Scan</h2>
+                <h2 className="text-2xl font-black text-amber-900">Free Signal Scan</h2>
 
-                <p className="mt-3 text-gray-300">
+                <p className="mt-3 text-slate-700">
                   Enter your birth data and discover your Planet Signature before choosing any premium tier.
                 </p>
 
                 <div className="mt-8 grid gap-5 md:grid-cols-2">
                   <label>
-                    <span className="mb-2 block text-sm text-gray-300">Birth Date</span>
+                    <span className="mb-2 block text-sm text-slate-700">Birth Date</span>
                     <input
                       type="date"
                       value={birthDate}
@@ -173,7 +199,7 @@ export default function Home() {
                   </label>
 
                   <label>
-                    <span className="mb-2 block text-sm text-gray-300">Birth Time</span>
+                    <span className="mb-2 block text-sm text-slate-700">Birth Time</span>
                     <input
                       type="time"
                       value={birthTime}
@@ -183,14 +209,14 @@ export default function Home() {
                   </label>
 
                   <label className="md:col-span-2">
-                    <span className="mb-2 block text-sm text-gray-300">Gender</span>
+                    <span className="mb-2 block text-sm text-slate-700">Gender</span>
                     <div className="grid grid-cols-2 gap-4">
                       <button
                         type="button"
                         onClick={() => setGender("male")}
                         className={gender === "male"
-                          ? "rounded-xl border border-yellow-300 bg-yellow-500/20 px-4 py-4 text-lg font-black text-yellow-100"
-                          : "rounded-xl border border-white/20 bg-black/80 px-4 py-4 text-lg font-black text-gray-300"}
+                          ? "rounded-xl border border-yellow-300 bg-yellow-500/20 px-4 py-4 text-lg font-black text-amber-900"
+                          : "rounded-xl border border-white/20 bg-black/80 px-4 py-4 text-lg font-black text-slate-700"}
                       >
                         Male
                       </button>
@@ -199,8 +225,8 @@ export default function Home() {
                         type="button"
                         onClick={() => setGender("female")}
                         className={gender === "female"
-                          ? "rounded-xl border border-yellow-300 bg-yellow-500/20 px-4 py-4 text-lg font-black text-yellow-100"
-                          : "rounded-xl border border-white/20 bg-black/80 px-4 py-4 text-lg font-black text-gray-300"}
+                          ? "rounded-xl border border-yellow-300 bg-yellow-500/20 px-4 py-4 text-lg font-black text-amber-900"
+                          : "rounded-xl border border-white/20 bg-black/80 px-4 py-4 text-lg font-black text-slate-700"}
                       >
                         Female
                       </button>
@@ -208,12 +234,55 @@ export default function Home() {
                   </label>
                 </div>
 
-                <button
-                  onClick={decode}
-                  className="mt-8 rounded-none bg-red-600 px-12 py-5 text-xl font-black tracking-wide text-white transition hover:bg-red-500"
-                >
-                  {loading ? "SCANNING..." : "FREE SIGNAL SCAN"}
-                </button>
+                <div className="mt-8 grid gap-6 lg:grid-cols-[1fr_330px] lg:items-end">
+                  <div>
+                    <button
+                      onClick={decode}
+                      className="w-full rounded-xl bg-gradient-to-r from-red-600 via-red-500 to-red-600 px-10 py-5 text-xl font-black tracking-wide text-white shadow-[0_0_28px_rgba(239,68,68,0.28)] transition hover:scale-[1.01] hover:from-red-500 hover:to-red-500 lg:max-w-[520px]"
+                    >
+                      {loading ? "SCANNING..." : "FREE SIGNAL SCAN  →"}
+                    </button>
+
+                    <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm font-bold text-amber-800">
+                      <span>✓ 100% Free</span>
+                      <span className="text-yellow-500/70">•</span>
+                      <span>No Signup</span>
+                      <span className="text-yellow-500/70">•</span>
+                      <span>No Card</span>
+                    </div>
+                  </div>
+
+                  <div
+                    className="relative overflow-hidden rounded-2xl border border-[#a9c5bd]/60 bg-gradient-to-br from-[#dce9e5] via-[#c8ddd7] to-[#aecbc3] px-6 py-5 text-center shadow-[0_12px_35px_rgba(65,94,87,0.16)]"
+                  >
+                    <div className="pointer-events-none absolute -right-8 -top-10 h-28 w-28 rounded-full bg-white/35 blur-2xl" />
+                    <div className="pointer-events-none absolute -bottom-10 -left-8 h-24 w-24 rounded-full bg-[#eef5f2]/50 blur-2xl" />
+
+                    <div className="relative">
+                      <p className="text-[13px] font-extrabold tracking-[0.22em] text-[#3f625a]">
+                        TOTAL VISITORS
+                      </p>
+
+                      <p className="mt-1 text-xs font-semibold tracking-[0.08em] text-[#66847d]">
+                        누적 방문자 수
+                      </p>
+
+                      <div className="mx-auto mt-3 h-px w-24 bg-[#759b91]/35" />
+
+                      <p className="mt-3 text-5xl font-black tracking-tight text-[#294c44] tabular-nums">
+                        {visitorCount.toLocaleString()}
+                      </p>
+
+                      <p className="mt-2 text-[10px] font-bold tracking-[0.22em] text-[#6b8c84]">
+                        K-UPFATE SIGNAL
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-5 border-t border-yellow-300/10 pt-4 text-center text-xs text-gray-400">
+                  🔒 Your privacy is protected. We never store or share your personal data.
+                </div>
               </section>
             </div>
           )}
@@ -227,28 +296,28 @@ export default function Home() {
 
           {result && pillars && five && destiny && (
             <section className="pt-[23vh]">
-              <div className="rounded-t-3xl bg-[#242424]/95 p-8 shadow-2xl">
+              <div className="rounded-t-3xl bg-white/95 p-8 shadow-xl">
                 <p className="text-sm uppercase tracking-[0.55em] text-red-200">
                   Free Destiny Signal Detected
                 </p>
 
-                <h1 className="mt-4 text-6xl font-black tracking-tight text-yellow-100">
+                <h1 className="mt-4 text-6xl font-black tracking-tight text-amber-900">
                   {destiny.rarity}
                 </h1>
 
-                <div className="mt-8 rounded-2xl border border-yellow-300/20 bg-black/70 p-7">
+                <div className="mt-8 rounded-2xl border border-amber-300/60 bg-[#fffdf8] p-7">
                   <p className="text-sm font-bold uppercase tracking-widest text-gray-400">LIFE CODE</p>
-                  <p className="mt-3 text-5xl font-black tracking-wide text-yellow-300">
+                  <p className="mt-3 text-5xl font-black tracking-wide text-amber-700">
                     {destiny.lifeCode}
                   </p>
                 </div>
 
-                <p className="mt-8 max-w-5xl text-2xl font-semibold leading-10 text-gray-100">
+                <p className="mt-8 max-w-5xl text-2xl font-semibold leading-10 text-slate-800">
                   {destiny.rarityText}
                 </p>
               </div>
 
-              <div className="grid gap-8 bg-[#242424]/95 p-8">
+              <div className="grid gap-8 bg-[#f5f3ee]/95 p-8">
                 <ZodiacAvatar pillar={pillars.year} result={result} />
 
                 <CheonmunStarAnimal result={result} />
@@ -276,12 +345,12 @@ export default function Home() {
                     {["year", "month", "day", "hour"].map((key) => {
                       const p = pillars[key]
                       return (
-                        <div key={key} className="rounded-2xl border border-white/10 bg-black/70 p-8">
-                          <p className="text-sm uppercase tracking-widest text-gray-500">{key}</p>
-                          <p className="mt-5 text-6xl font-black text-yellow-100">
+                        <div key={key} className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+                          <p className="text-sm uppercase tracking-widest text-slate-500">{key}</p>
+                          <p className="mt-5 text-6xl font-black text-amber-900">
                             {p.stem.symbol}{p.branch.symbol}
                           </p>
-                          <p className="mt-5 text-lg font-semibold text-gray-300">
+                          <p className="mt-5 text-lg font-semibold text-slate-700">
                             {p.stem.element} / {p.branch.element}
                           </p>
                         </div>
@@ -290,7 +359,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="rounded-3xl border border-red-500/20 bg-black/45 p-8">
+                <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
                   <h2 className="text-4xl font-black text-red-300">Five Energy Ratio</h2>
 
                   <div className="mt-8 space-y-5">
@@ -300,7 +369,7 @@ export default function Home() {
                           <span>{name}</span>
                           <span>{value}%</span>
                         </div>
-                        <div className="mt-2 h-5 rounded-full bg-white/10">
+                        <div className="mt-2 h-5 rounded-full bg-slate-200">
                           <div
                             className={`h-5 rounded-full ${energyColor[name] || "bg-blue-500"}`}
                             style={{ width: `${value}%` }}
@@ -311,12 +380,12 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="rounded-3xl border border-yellow-500/30 bg-black/60 p-8">
-                  <h2 className="text-4xl font-black text-yellow-300">
+                <div className="rounded-3xl border border-amber-300/50 bg-white p-8 shadow-sm">
+                  <h2 className="text-4xl font-black text-amber-700">
                     Unlock Full K-UPFATE Report
                   </h2>
 
-                  <p className="mt-4 text-lg leading-8 text-gray-300">
+                  <p className="mt-4 text-lg leading-8 text-slate-700">
                     The free scan reveals only the surface structure. Choose a premium tier to unlock deeper interpretation.
                   </p>
 
@@ -331,18 +400,18 @@ export default function Home() {
                           "rounded-2xl border p-5 text-left transition",
                           selectedPlan === plan.id
                             ? "border-yellow-300 bg-yellow-500/10 shadow-[0_0_40px_rgba(255,215,120,0.18)]"
-                            : "border-white/10 bg-black/60 hover:border-yellow-300/40"
+                            : "border-slate-200 bg-[#faf9f6] hover:border-amber-400"
                         ].join(" ")}
                       >
-                        <p className="text-lg font-black tracking-widest text-yellow-100">{plan.name}</p>
-                        <p className="mt-3 text-3xl font-black text-yellow-300">{plan.price}</p>
-                        <p className="mt-4 text-sm leading-6 text-gray-300">{plan.desc}</p>
+                        <p className="text-lg font-black tracking-widest text-amber-900">{plan.name}</p>
+                        <p className="mt-3 text-3xl font-black text-amber-700">{plan.price}</p>
+                        <p className="mt-4 text-sm leading-6 text-slate-700">{plan.desc}</p>
                       </button>
                     ))}
                   </div>
 
-                  <div className="mt-8 rounded-2xl border border-white/10 bg-black/70 p-7">
-                    <h3 className="text-2xl font-black text-yellow-200">
+                  <div className="mt-8 rounded-2xl border border-slate-200 bg-[#faf9f6] p-7">
+                    <h3 className="text-2xl font-black text-amber-800">
                       {paidPlan === selectedPlan ? `${selectedPlan.toUpperCase()} Report Unlocked` : `${selectedPlan.toUpperCase()} Locked Preview`}
                     </h3>
 
@@ -350,8 +419,8 @@ export default function Home() {
                       <PremiumReportView result={result} plan={selectedPlan} />
                     ) : (
                       <>
-                        <div className="mt-5 rounded-2xl border border-yellow-300/20 bg-black/70 p-6 text-lg leading-9 text-gray-300">
-                          <p className="font-black text-yellow-200">Locked Premium Sections</p>
+                        <div className="mt-5 rounded-2xl border border-amber-300/40 bg-[#fffdf8] p-6 text-lg leading-9 text-slate-700">
+                          <p className="font-black text-amber-800">Locked Premium Sections</p>
                           <ul className="mt-4 list-disc space-y-2 pl-6">
                             <li>Career direction and work pattern</li>
                             <li>Wealth and money flow tendency</li>
@@ -380,12 +449,12 @@ export default function Home() {
             </section>
           )}
 
-          <footer className="mt-20 border-t border-white/10 py-10 text-center text-sm text-zinc-400">
+          <footer className="mt-20 border-t border-slate-200 py-10 text-center text-sm text-slate-500">
             <div className="flex justify-center gap-6">
-              <a href="/privacy" className="hover:text-white">Privacy Policy</a>
-              <a href="/terms" className="hover:text-white">Terms of Service</a>
-              <a href="/refund" className="hover:text-white">Refund Policy</a>
-              <a href="/contact" className="hover:text-white">Contact</a>
+              <a href="/privacy" className="hover:text-slate-900">Privacy Policy</a>
+              <a href="/terms" className="hover:text-slate-900">Terms of Service</a>
+              <a href="/refund" className="hover:text-slate-900">Refund Policy</a>
+              <a href="/contact" className="hover:text-slate-900">Contact</a>
             </div>
             <p className="mt-4">© K-UPFATE. Ancient Korean sky wisdom for modern life.</p>
           </footer>
