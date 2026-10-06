@@ -1,4 +1,5 @@
 "use client"
+import Bi from "@/components/BilingualText"
 
 export default function ShareSignatureButton({ result }: { result: any }) {
   const dominant = result?.strength?.dominantEnergy || "Earth"
@@ -27,9 +28,7 @@ https://kupfate.com`
   return (
     <button
       onClick={share}
-      className="rounded-2xl border border-cyan-300/40 bg-cyan-500/10 px-7 py-4 text-lg font-black text-cyan-100 transition hover:bg-cyan-500/20"
-    >
-      Share My Life Signature
-    </button>
+      className="rounded-2xl border border-cyan-300/40 bg-cyan-500/10 px-7 py-4 text-lg font-black text-[#516d88] transition hover:bg-cyan-500/20"
+    ><Bi en="Share My Life Signature" ko="내 사주 결과 공유하기" /></button>
   )
 }

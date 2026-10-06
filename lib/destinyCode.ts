@@ -47,7 +47,7 @@ export function generateDestinyExperience(result: any) {
   const hook =
     level === "Strong"
       ? `A hidden imbalance pattern was detected. Your chart does not become stronger through more ${dominant}. It stabilizes through ${useful}.`
-      : level === "Balance"
+      : level === "Balanced"
       ? `Your structure is not extreme, but it contains a subtle hidden pattern. The key is how ${useful} is activated.`
       : `Your structure requires external support and timing alignment. ${useful} becomes the stabilizing key.`
 

@@ -1,6 +1,10 @@
 "use client"
+import {ko} from "@/lib/korean"
+import Bi from "@/components/BilingualText"
 
 import { getDayBranchSpiritProfile } from "@/lib/tenSpirits"
+
+const spiritKo:Record<string,[string,string]> = {"es": ["비견 · 比肩", "자기 주도성, 독립심, 의지와 뚜렷한 정체성"], "tm": ["겁재 · 劫財", "경쟁, 가족의 압력, 자원 갈등과 독립성"], "bm": ["편재 · 偏財", "기회, 사업 감각, 유연한 재물 흐름과 실용적인 본능"], "rm": ["정재 · 正財", "안정적인 재물, 책임감, 현실적인 판단과 꾸준한 관리"], "bs": ["편인 · 偏印", "직관, 독특한 통찰, 독학과 비전통적인 학습"], "rs": ["정인 · 正印", "교육, 지지, 전통적인 지식과 체계적인 학습"], "fg": ["식신 · 食神", "재능, 창의적인 결과물, 편안함과 실질적인 생산"], "th": ["상관 · 傷官", "표현력, 비판 정신, 독립적인 발언과 규칙에 대한 도전"], "bh": ["편관 · 偏官", "압박, 절제, 도전과 위기에 대응하는 힘"], "rh": ["정관 · 正官", "질서, 책임감, 평판과 사회적 신뢰"]}
 
 const stemPlanet: Record<string, any> = {
   T: { planet: "Jupiter", image: "/images/planet-jupiter.png", energy: "Tree", polarity: "Sunlit", tone: "Expansion, growth, vision, and movement" },
@@ -34,13 +38,11 @@ export default function PlanetBirthSignature({ pillars, result }: { pillars: any
   const dayBranchSpirits = result ? getDayBranchSpiritProfile(result) : []
 
   return (
-    <div className="rounded-3xl border border-yellow-400/30 bg-black/70 p-8 shadow-[0_0_80px_rgba(255,215,120,0.16)]">
-      <p className="text-sm uppercase tracking-[0.45em] text-yellow-300">
-        Planet Birth Signature
-      </p>
+    <div className="rounded-3xl border border-yellow-400/30 bg-white p-8 shadow-sm">
+      <p className="text-sm uppercase tracking-[0.45em] text-[#725b38]"><Bi en="Planet Birth Signature" ko="탄생의 행성 상징" /></p>
 
       <div className="mt-8 grid gap-8 md:grid-cols-[300px_1fr] md:items-center">
-        <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-black p-5">
+        <div className="relative overflow-hidden rounded-3xl border border-[#e5dfea] bg-white p-5">
           <img
             src={p.image}
             alt={p.planet}
@@ -49,44 +51,38 @@ export default function PlanetBirthSignature({ pillars, result }: { pillars: any
         </div>
 
         <div>
-          <h2 className="text-5xl font-black text-yellow-100">
-            {p.polarity} {p.planet}
+          <h2 className="text-5xl font-black text-[#725b38]">
+            <Bi en={`${p.polarity} ${p.planet}`} ko={`${ko(p.polarity)} · ${ko(p.planet)}`} />
           </h2>
 
-          <p className="mt-4 text-2xl font-black text-blue-200">
-            {p.polarity} {p.energy} Energy
+          <p className="mt-4 text-2xl font-black text-[#516d88]">
+            <Bi en={`${p.polarity} ${p.energy} Energy`} ko={`${ko(p.polarity)} · ${ko(p.energy)}의 기운`} />
           </p>
 
-          <p className="mt-5 text-xl leading-9 text-gray-200">
-            Your Day Sky Energy is <span className="font-black text-yellow-200">{dayStem}</span>.
-            This means your core self was born under the {p.polarity.toLowerCase()} current of {p.planet}.
+          <p className="mt-5 text-xl leading-9 text-[#373341]">
+            <Bi en={`Your Day Sky Energy is ${dayStem}. This means your core self was born under the ${p.polarity.toLowerCase()} current of ${p.planet}.`} ko={`일간 코드는 ${dayStem}입니다. 나의 중심 기운을 ${ko(p.polarity)}의 ${ko(p.planet)} 상징으로 살펴봅니다.`} />
           </p>
 
-          <p className="mt-4 text-lg leading-8 text-gray-300">
-            In K-upfate, {p.planet} represents {p.energy} Energy:
-            <span className="font-bold text-yellow-200"> {p.tone}</span>.
+          <p className="mt-4 text-lg leading-8 text-[#6d6675]">
+            <Bi en={`In K-UPFATE, ${p.planet} represents ${p.energy} Energy: ${p.tone}.`} ko={`K-UPFATE에서 ${ko(p.planet)}은 ${ko(p.energy)}의 상징입니다. ${ko(p.tone)}을 뜻합니다.`} />
           </p>
         </div>
       </div>
 
       {dayBranchSpirits.length > 0 && (
-        <div className="mt-8 rounded-3xl border border-blue-300/20 bg-blue-950/20 p-6">
-          <p className="text-sm uppercase tracking-widest text-blue-200">
-            Inner Character from Day Field
-          </p>
+        <div className="mt-8 rounded-3xl border border-blue-300/20 bg-[#edf2f8] p-6">
+          <p className="text-sm uppercase tracking-widest text-[#516d88]"><Bi en="Inner Character from Day Field" ko="일지로 살펴보는 내면 성향" /></p>
 
-          <h3 className="mt-3 text-3xl font-black text-blue-100">
-            Hidden Sky Energy converted into Ten Spirits
-          </h3>
+          <h3 className="mt-3 text-3xl font-black text-[#516d88]"><Bi en="Hidden Sky Energy converted into Ten Spirits" ko="지장간을 십성으로 풀어보기" /></h3>
 
           <div className="mt-5 grid gap-4 md:grid-cols-3">
             {dayBranchSpirits.map((s: any) => (
-              <div key={s.stem + s.code} className="rounded-2xl border border-white/10 bg-black/60 p-4">
-                <p className="text-sm font-black text-yellow-200">
-                  {s.stem} · {s.name}
+              <div key={s.stem + s.code} className="rounded-2xl border border-[#e5dfea] bg-white p-4">
+                <p className="text-sm font-black text-[#725b38]">
+                  <Bi en={`${s.stem} · ${s.name}`} ko={spiritKo[s.code]?.[0]} />
                 </p>
-                <p className="mt-2 text-sm leading-6 text-gray-300">
-                  {s.meaning}
+                <p className="mt-2 text-sm leading-6 text-[#6d6675]">
+                  <Bi en={s.meaning} ko={spiritKo[s.code]?.[1]} />
                 </p>
               </div>
             ))}
@@ -95,19 +91,16 @@ export default function PlanetBirthSignature({ pillars, result }: { pillars: any
       )}
 
       {seasonalEarth && (
-        <div className="mt-8 rounded-3xl border border-yellow-300/20 bg-yellow-950/20 p-6">
+        <div className="mt-8 rounded-3xl border border-yellow-300/20 bg-[#faf3e6] p-6">
           <div>
-            <p className="text-sm uppercase tracking-widest text-yellow-300">
-              Seasonal Earth Field
-            </p>
+            <p className="text-sm uppercase tracking-widest text-[#725b38]"><Bi en="Seasonal Earth Field" ko="계절에 따른 토의 기운" /></p>
 
-            <h3 className="mt-3 text-4xl font-black text-yellow-100">
-              {seasonalEarth.name} · {seasonalEarth.field}
+            <h3 className="mt-3 text-4xl font-black text-[#725b38]">
+              <Bi en={`${seasonalEarth.name} · ${seasonalEarth.field}`} ko={`${ko(seasonalEarth.name)} · ${ko(seasonalEarth.field)}`} />
             </h3>
 
-            <p className="mt-3 text-lg leading-8 text-gray-300">
-              Your Day Earth Field carries {seasonalEarth.polarity} Earth.
-              {seasonalEarth.desc}
+            <p className="mt-3 text-lg leading-8 text-[#6d6675]">
+              <Bi en={`Your Day Earth Field carries ${seasonalEarth.polarity} Earth. ${seasonalEarth.desc}`} ko={`${ko(seasonalEarth.polarity)}의 토 기운입니다. ${{4:"겨울을 지나 성장의 힘을 품은 봄의 땅",7:"온기를 품고 비옥하며 내면이 풍부한 여름의 땅",10:"수확 후 저장과 전환을 준비하는 가을의 땅",1:"조용히 기운을 깊이 저장하는 겨울의 땅"}[dayBranchIndex as 4|7|10|1]}.`} />
             </p>
           </div>
         </div>

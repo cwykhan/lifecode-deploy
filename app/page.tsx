@@ -1,6 +1,8 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import Landing from "@/components/Landing"
+import Bi from "@/components/BilingualText"
 import { generateReport } from "@/lib/reportText"
 import { getBronzeReport, getSilverReport, getGoldReport, getPlatinumReport } from "@/lib/premiumReports"
 import { generateDestinyExperience } from "@/lib/destinyCode"
@@ -143,177 +145,37 @@ export default function Home() {
   const report = result ? generateReport(result, reportPlanMap[selectedPlan]) : ""
 
   return (
-    <main className="min-h-screen bg-[#f5f3ee] text-slate-900">
-      <section
-        className="min-h-screen bg-cover bg-top bg-no-repeat"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(0,0,0,0.18), rgba(23,23,23,0.94) 36%, rgba(23,23,23,1) 72%), url('/images/main-destiny.jpg')"
-        }}
-      >
-        <div className="mx-auto max-w-7xl px-8 py-10">
-          {!result && (
-            <div className="pt-[28vh]">
-              <p className="text-sm uppercase tracking-[0.55em] text-red-200">
-                Ancient Korean Astronomy Engine
-              </p>
-
-              <h1 className="mt-5 text-7xl font-black tracking-tight text-amber-900">
-                K-UPFATE
-              </h1>
-
-              <p className="mt-6 max-w-3xl text-2xl font-semibold leading-10 text-white">
-                Decode your hidden life pattern through ancient Korean sky wisdom.
-              </p>
-
-              <div className="mt-10 grid gap-5 md:grid-cols-4">
-                {[
-                  ["Planet Signature", "Your core energy pattern and visible life identity."],
-                  ["Career Signature", "Your natural work style, talent direction, and achievement path."],
-                  ["Wealth Signature", "How you create, keep, and expand money through your life pattern."],
-                  ["Relationship Signature", "Your connection style, emotional rhythm, and partner dynamics."]
-                ].map(([title, desc]) => (
-                  <div key={title} className="rounded-2xl border border-yellow-300/20 bg-black/60 p-5 shadow-[0_0_35px_rgba(255,215,120,0.08)]">
-                    <p className="text-lg font-black text-amber-900">{title}</p>
-                    <p className="mt-3 text-sm leading-6 text-slate-700">{desc}</p>
-                  </div>
-                ))}
-              </div>
-
-              <section className="mt-10 rounded-3xl border border-yellow-300/15 bg-black/60 p-8 backdrop-blur-xl">
-                <h2 className="text-2xl font-black text-amber-900">Free Signal Scan</h2>
-
-                <p className="mt-3 text-slate-700">
-                  Enter your birth data and discover your Planet Signature before choosing any premium tier.
-                </p>
-
-                <div className="mt-8 grid gap-5 md:grid-cols-2">
-                  <label>
-                    <span className="mb-2 block text-sm text-slate-700">Birth Date</span>
-                    <input
-                      type="date"
-                      value={birthDate}
-                      onChange={(e) => setBirthDate(e.target.value)}
-                      className="w-full rounded-xl border border-white/20 bg-black/80 px-4 py-4 text-lg text-white"
-                    />
-                  </label>
-
-                  <label>
-                    <span className="mb-2 block text-sm text-slate-700">Birth Time</span>
-                    <input
-                      type="time"
-                      value={birthTime}
-                      onChange={(e) => setBirthTime(e.target.value)}
-                      className="w-full rounded-xl border border-white/20 bg-black/80 px-4 py-4 text-lg text-white"
-                    />
-                  </label>
-
-                  <label className="md:col-span-2">
-                    <span className="mb-2 block text-sm text-slate-700">Gender</span>
-                    <div className="grid grid-cols-2 gap-4">
-                      <button
-                        type="button"
-                        onClick={() => setGender("male")}
-                        className={gender === "male"
-                          ? "rounded-xl border border-yellow-300 bg-yellow-500/20 px-4 py-4 text-lg font-black text-amber-900"
-                          : "rounded-xl border border-white/20 bg-black/80 px-4 py-4 text-lg font-black text-slate-700"}
-                      >
-                        Male
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => setGender("female")}
-                        className={gender === "female"
-                          ? "rounded-xl border border-yellow-300 bg-yellow-500/20 px-4 py-4 text-lg font-black text-amber-900"
-                          : "rounded-xl border border-white/20 bg-black/80 px-4 py-4 text-lg font-black text-slate-700"}
-                      >
-                        Female
-                      </button>
-                    </div>
-                  </label>
-                </div>
-
-                <div className="mt-8 grid gap-6 lg:grid-cols-[1fr_330px] lg:items-end">
-                  <div>
-                    <button
-                      onClick={decode}
-                      className="w-full rounded-xl bg-gradient-to-r from-red-600 via-red-500 to-red-600 px-10 py-5 text-xl font-black tracking-wide text-white shadow-[0_0_28px_rgba(239,68,68,0.28)] transition hover:scale-[1.01] hover:from-red-500 hover:to-red-500 lg:max-w-[520px]"
-                    >
-                      {loading ? "SCANNING..." : "FREE SIGNAL SCAN  →"}
-                    </button>
-
-                    <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm font-bold text-amber-800">
-                      <span>✓ 100% Free</span>
-                      <span className="text-yellow-500/70">•</span>
-                      <span>No Signup</span>
-                      <span className="text-yellow-500/70">•</span>
-                      <span>No Card</span>
-                    </div>
-                  </div>
-
-                  <div
-                    className="relative overflow-hidden rounded-2xl border border-[#a9c5bd]/60 bg-gradient-to-br from-[#dce9e5] via-[#c8ddd7] to-[#aecbc3] px-6 py-5 text-center shadow-[0_12px_35px_rgba(65,94,87,0.16)]"
-                  >
-                    <div className="pointer-events-none absolute -right-8 -top-10 h-28 w-28 rounded-full bg-white/35 blur-2xl" />
-                    <div className="pointer-events-none absolute -bottom-10 -left-8 h-24 w-24 rounded-full bg-[#eef5f2]/50 blur-2xl" />
-
-                    <div className="relative">
-                      <p className="text-[13px] font-extrabold tracking-[0.22em] text-[#3f625a]">
-                        TOTAL VISITORS
-                      </p>
-
-                      <p className="mt-1 text-xs font-semibold tracking-[0.08em] text-[#66847d]">
-                        누적 방문자 수
-                      </p>
-
-                      <div className="mx-auto mt-3 h-px w-24 bg-[#759b91]/35" />
-
-                      <p className="mt-3 text-5xl font-black tracking-tight text-[#294c44] tabular-nums">
-                        {visitorCount.toLocaleString()}
-                      </p>
-
-                      <p className="mt-2 text-[10px] font-bold tracking-[0.22em] text-[#6b8c84]">
-                        K-UPFATE SIGNAL
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-5 border-t border-yellow-300/10 pt-4 text-center text-xs text-gray-400">
-                  🔒 Your privacy is protected. We never store or share your personal data.
-                </div>
-              </section>
-            </div>
-          )}
+    <main className="site-shell">
+      <section>
+        <div className="site-container">
+          {!result && <Landing birthDate={birthDate} birthTime={birthTime} gender={gender} loading={loading} visitorCount={visitorCount} setBirthDate={setBirthDate} setBirthTime={setBirthTime} setGender={setGender} decode={decode} />}
+          {result && <header className="site-header"><a href="/" className="brand"><span className="brand-mark">✧</span>K-UPFATE.</a><button onClick={reset} className="nav-reading"><Bi en="New reading ↗" ko="다른 사주 보기" /></button></header>}
 
           {error && (
-            <section className="mt-8 rounded-3xl border border-red-500 bg-red-950/70 p-6">
-              <h2 className="text-xl font-bold text-red-200">Engine Error</h2>
-              <pre className="mt-4 whitespace-pre-wrap text-sm text-red-100">{error}</pre>
+            <section className="mt-8 rounded-3xl border border-red-500 bg-[#faeeee] p-6">
+              <h2 className="text-xl font-bold text-[#986366]"><Bi en="Engine Error" ko="분석 중 오류가 발생했습니다" /></h2>
+              <pre className="mt-4 whitespace-pre-wrap text-sm text-[#986366]">{error}</pre>
             </section>
           )}
 
           {result && pillars && five && destiny && (
-            <section className="pt-[23vh]">
+            <section className="result-content">
               <div className="rounded-t-3xl bg-white/95 p-8 shadow-xl">
-                <p className="text-sm uppercase tracking-[0.55em] text-red-200">
-                  Free Destiny Signal Detected
-                </p>
+                <p className="text-sm uppercase tracking-[0.55em] text-[#986366]"><Bi en="Free Destiny Signal Detected" ko="무료 사주 분석 결과" /></p>
 
-                <h1 className="mt-4 text-6xl font-black tracking-tight text-amber-900">
-                  {destiny.rarity}
+                <h1 className="mt-4 text-6xl font-black tracking-tight text-[#725b38]">
+                  <Bi en={destiny.rarity} ko={({"COMMON STRUCTURE":"기본 기운 구조","CELESTIAL VARIANT":"집중된 기운 구조","EXTREME STRUCTURE":"강한 기운 구조","RARE STRUCTURE":"특징적인 기운 구조"} as Record<string,string>)[destiny.rarity]} />
                 </h1>
 
                 <div className="mt-8 rounded-2xl border border-amber-300/60 bg-[#fffdf8] p-7">
-                  <p className="text-sm font-bold uppercase tracking-widest text-gray-400">LIFE CODE</p>
+                  <p className="text-sm font-bold uppercase tracking-widest text-[#6d6675]"><Bi en="LIFE CODE" ko="나의 라이프 코드" /></p>
                   <p className="mt-3 text-5xl font-black tracking-wide text-amber-700">
                     {destiny.lifeCode}
                   </p>
                 </div>
 
                 <p className="mt-8 max-w-5xl text-2xl font-semibold leading-10 text-slate-800">
-                  {destiny.rarityText}
+                  <Bi en={destiny.rarityText} ko={({"COMMON STRUCTURE":"기본적인 균형 안에 당신만의 기운과 성향이 담겨 있습니다.","CELESTIAL VARIANT":"기운이 강하게 집중된 구조로, 뚜렷한 특징을 보여줍니다.","EXTREME STRUCTURE":"강한 기운이 영향력과 불균형의 가능성을 함께 만듭니다.","RARE STRUCTURE":"하나의 두드러진 기운이 전체 성향에 큰 영향을 줍니다."} as Record<string,string>)[destiny.rarity]} />
                 </p>
               </div>
 
@@ -339,15 +201,15 @@ export default function Home() {
                 <WealthRelationshipStyle result={result} />
 
                 <div>
-                  <h2 className="text-4xl font-black text-blue-300">Four Pillars</h2>
+                  <h2 className="text-4xl font-black text-[#516d88]"><Bi en="Four Pillars" ko="사주 명식 · 四柱" /></h2>
 
                   <div className="mt-8 grid grid-cols-2 gap-7 md:grid-cols-4">
                     {["year", "month", "day", "hour"].map((key) => {
                       const p = pillars[key]
                       return (
                         <div key={key} className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
-                          <p className="text-sm uppercase tracking-widest text-slate-500">{key}</p>
-                          <p className="mt-5 text-6xl font-black text-amber-900">
+                          <p className="text-sm uppercase tracking-widest text-[#6d6675]"><Bi en={key} ko={({year:"년주",month:"월주",day:"일주",hour:"시주"} as Record<string,string>)[key]} /></p>
+                          <p className="mt-5 text-6xl font-black text-[#725b38]">
                             {p.stem.symbol}{p.branch.symbol}
                           </p>
                           <p className="mt-5 text-lg font-semibold text-slate-700">
@@ -360,13 +222,13 @@ export default function Home() {
                 </div>
 
                 <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
-                  <h2 className="text-4xl font-black text-red-300">Five Energy Ratio</h2>
+                  <h2 className="text-4xl font-black text-[#986366]"><Bi en="Five Energy Ratio" ko="오행 비율 · 五行" /></h2>
 
                   <div className="mt-8 space-y-5">
                     {Object.entries(five).map(([name, value]: any) => (
                       <div key={name}>
                         <div className="flex justify-between text-lg font-bold">
-                          <span>{name}</span>
+                          <span><Bi en={name} ko={({Tree:"목 · T",Fire:"화 · F",Earth:"토 · E",Metal:"금 · M",Water:"수 · W"} as Record<string,string>)[name]} /></span>
                           <span>{value}%</span>
                         </div>
                         <div className="mt-2 h-5 rounded-full bg-slate-200">
@@ -381,13 +243,9 @@ export default function Home() {
                 </div>
 
                 <div className="rounded-3xl border border-amber-300/50 bg-white p-8 shadow-sm">
-                  <h2 className="text-4xl font-black text-amber-700">
-                    Unlock Full K-UPFATE Report
-                  </h2>
+                  <h2 className="text-4xl font-black text-amber-700"><Bi en="Unlock Full K-UPFATE Report" ko="더 깊이 알아보는 나의 사주" /></h2>
 
-                  <p className="mt-4 text-lg leading-8 text-slate-700">
-                    The free scan reveals only the surface structure. Choose a premium tier to unlock deeper interpretation.
-                  </p>
+                  <p className="mt-4 text-lg leading-8 text-slate-700"><Bi en="The free scan reveals only the surface structure. Choose a premium tier to unlock deeper interpretation." ko="무료 분석으로 기본 구조를 확인하고, 유료 리포트에서 더 자세한 해석을 살펴보세요." /></p>
 
                   <FounderPlatinumBanner />
 
@@ -403,16 +261,16 @@ export default function Home() {
                             : "border-slate-200 bg-[#faf9f6] hover:border-amber-400"
                         ].join(" ")}
                       >
-                        <p className="text-lg font-black tracking-widest text-amber-900">{plan.name}</p>
+                        <p className="text-lg font-black tracking-widest text-[#725b38]"><Bi en={plan.name} ko={({bronze:"브론즈",silver:"실버",gold:"골드",platinum:"플래티넘"} as Record<string,string>)[plan.id]} /></p>
                         <p className="mt-3 text-3xl font-black text-amber-700">{plan.price}</p>
-                        <p className="mt-4 text-sm leading-6 text-slate-700">{plan.desc}</p>
+                        <p className="mt-4 text-sm leading-6 text-slate-700"><Bi en={plan.desc} ko={({bronze:"핵심 해석과 용신 안내",silver:"직업·균형·내면 성향 안내",gold:"직업·재물·관계·건강 해석",platinum:"K-UPFATE 종합 리포트"} as Record<string,string>)[plan.id]} /></p>
                       </button>
                     ))}
                   </div>
 
                   <div className="mt-8 rounded-2xl border border-slate-200 bg-[#faf9f6] p-7">
                     <h3 className="text-2xl font-black text-amber-800">
-                      {paidPlan === selectedPlan ? `${selectedPlan.toUpperCase()} Report Unlocked` : `${selectedPlan.toUpperCase()} Locked Preview`}
+                      <Bi en={paidPlan === selectedPlan ? `${selectedPlan.toUpperCase()} Report Unlocked` : `${selectedPlan.toUpperCase()} Report Preview`} ko={paidPlan === selectedPlan ? "구매한 리포트" : "리포트 미리보기"} />
                     </h3>
 
                     {paidPlan === selectedPlan ? (
@@ -420,14 +278,14 @@ export default function Home() {
                     ) : (
                       <>
                         <div className="mt-5 rounded-2xl border border-amber-300/40 bg-[#fffdf8] p-6 text-lg leading-9 text-slate-700">
-                          <p className="font-black text-amber-800">Locked Premium Sections</p>
+                          <p className="font-black text-amber-800"><Bi en="Locked Premium Sections" ko="유료 리포트에 포함된 내용" /></p>
                           <ul className="mt-4 list-disc space-y-2 pl-6">
-                            <li>Career direction and work pattern</li>
-                            <li>Wealth and money flow tendency</li>
-                            <li>Relationship and partner dynamics</li>
-                            <li>Health imbalance signal</li>
-                            <li>Hidden risk and correction strategy</li>
-                            <li>Useful Energy deep interpretation</li>
+                            <li><Bi en="Career direction and work pattern" ko="직업 방향과 일하는 방식" /></li>
+                            <li><Bi en="Wealth and money flow tendency" ko="재물과 자금 흐름의 성향" /></li>
+                            <li><Bi en="Relationship and partner dynamics" ko="관계와 배우자 성향" /></li>
+                            <li><Bi en="Health imbalance signal" ko="건강과 기운 불균형의 경향" /></li>
+                            <li><Bi en="Hidden risk and correction strategy" ko="내면의 취약점과 균형 방향" /></li>
+                            <li><Bi en="Useful Energy deep interpretation" ko="용신에 대한 심층 해석" /></li>
                           </ul>
                         </div>
 
@@ -441,22 +299,20 @@ export default function Home() {
 
                 <button
                   onClick={reset}
-                  className="w-fit rounded-2xl border border-yellow-400/40 bg-gradient-to-r from-yellow-500 via-amber-400 to-yellow-600 px-10 py-5 text-lg font-black tracking-widest text-black shadow-[0_0_40px_rgba(255,215,0,0.35)] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_60px_rgba(255,215,0,0.55)]"
-                >
-                  ✦ RE-ENTER DESTINY DATA
-                </button>
+                  className="w-fit rounded-2xl border border-yellow-400/40 bg-gradient-to-r from-yellow-500 via-amber-400 to-yellow-600 px-10 py-5 text-lg font-black tracking-widest text-black shadow-sm transition-all duration-300 hover:scale-105 hover:shadow-[0_0_60px_rgba(255,215,0,0.55)]"
+                ><Bi en="✦ RE-ENTER DESTINY DATA" ko="다른 생년월일로 다시 보기" /></button>
               </div>
             </section>
           )}
 
-          <footer className="mt-20 border-t border-slate-200 py-10 text-center text-sm text-slate-500">
+          <footer className="site-footer">
             <div className="flex justify-center gap-6">
-              <a href="/privacy" className="hover:text-slate-900">Privacy Policy</a>
-              <a href="/terms" className="hover:text-slate-900">Terms of Service</a>
-              <a href="/refund" className="hover:text-slate-900">Refund Policy</a>
-              <a href="/contact" className="hover:text-slate-900">Contact</a>
+              <a href="/privacy" className="hover:text-slate-900"><Bi en="Privacy Policy" ko="개인정보 처리방침" /></a>
+              <a href="/terms" className="hover:text-slate-900"><Bi en="Terms of Service" ko="이용약관" /></a>
+              <a href="/refund" className="hover:text-slate-900"><Bi en="Refund Policy" ko="환불 안내" /></a>
+              <a href="/contact" className="hover:text-slate-900"><Bi en="Contact" ko="문의하기" /></a>
             </div>
-            <p className="mt-4">© K-UPFATE. Ancient Korean sky wisdom for modern life.</p>
+            <p className="mt-4"><Bi en="© K-UPFATE. Ancient Korean sky wisdom for modern life." ko="한국 전통의 지혜로 나의 삶을 살펴보세요." /></p>
           </footer>
         </div>
       </section>

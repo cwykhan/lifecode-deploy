@@ -1,4 +1,5 @@
 "use client"
+import Bi from "@/components/BilingualText"
 
 const stems = ["T","t","F","f","E","e","M","m","W","w"]
 const branches = ["w","e","T","t","E","F","f","e","M","m","E","W"]
@@ -61,37 +62,30 @@ export default function AnnualFortuneChart({ result }: { result:any }) {
   const years = Array.from({ length: 10 }, (_, i) => yearPillar(2026 + i))
 
   return (
-    <div className="rounded-3xl border border-orange-300/20 bg-black/70 p-8">
-      <p className="text-sm uppercase tracking-[0.35em] text-orange-200">
-        10-Year Annual Fortune Flow
-      </p>
+    <div className="rounded-3xl border border-orange-300/20 bg-white p-8">
+      <p className="text-sm uppercase tracking-[0.35em] text-orange-200"><Bi en="10-Year Annual Fortune Flow" ko="10년간의 연도별 운세 흐름" /></p>
 
-      <h3 className="mt-4 text-4xl font-black text-orange-100">
-        Year-by-Year Energy Forecast
-      </h3>
+      <h3 className="mt-4 text-4xl font-black text-orange-100"><Bi en="Year-by-Year Energy Forecast" ko="연도별 기운의 변화" /></h3>
 
-      <p className="mt-4 text-lg leading-8 text-gray-300">
-        This chart shows the next 10 annual energies, starting from 2026.
-        Each year combines Sky Energy and Earth Field movement.
-      </p>
+      <p className="mt-4 text-lg leading-8 text-[#6d6675]"><Bi en="This chart shows the next 10 annual energies, starting from 2026. Each year combines Sky Energy and Earth Field movement." ko="2026년부터 10년간 천간과 지지의 기운을 살펴봅니다." /></p>
 
       <div className="mt-8 space-y-5">
         {years.map((y) => {
           const score = scoreYear(result, y.stem, y.branch)
 
           return (
-            <div key={y.year} className="rounded-2xl border border-white/10 bg-black/60 p-5">
+            <div key={y.year} className="rounded-2xl border border-[#e5dfea] bg-white p-5">
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <div>
                   <p className="text-2xl font-black text-orange-100">
                     {y.year} · {y.stem}{y.branch}
                   </p>
-                  <p className="mt-1 text-sm text-gray-400">
+                  <p className="mt-1 text-sm text-[#6d6675]">
                     {stemName[y.stem]} + {branchName[y.branch]}
                   </p>
                 </div>
 
-                <p className="text-3xl font-black text-yellow-200">
+                <p className="text-3xl font-black text-[#725b38]">
                   {score}
                 </p>
               </div>

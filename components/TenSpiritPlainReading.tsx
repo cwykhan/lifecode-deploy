@@ -1,4 +1,6 @@
 "use client"
+import Txt from "@/components/TranslatedText"
+import Bi from "@/components/BilingualText"
 
 import { getDayBranchSpiritProfile } from "@/lib/tenSpirits"
 
@@ -62,26 +64,22 @@ export default function TenSpiritPlainReading({ result }: { result: any }) {
   if (!picked.length) return null
 
   return (
-    <div className="rounded-3xl border border-blue-300/20 bg-black/70 p-8 shadow-[0_0_70px_rgba(120,180,255,0.12)]">
-      <p className="text-sm uppercase tracking-[0.45em] text-blue-200">
-        Human Pattern Reading
-      </p>
+    <div className="rounded-3xl border border-blue-300/20 bg-white p-8 shadow-sm">
+      <p className="text-sm uppercase tracking-[0.45em] text-[#516d88]"><Bi en="Human Pattern Reading" ko="내면의 행동 성향" /></p>
 
-      <h2 className="mt-5 text-4xl font-black text-blue-100">
-        What your hidden field says about you
-      </h2>
+      <h2 className="mt-5 text-4xl font-black text-[#516d88]"><Bi en="What your hidden field says about you" ko="지장간으로 알아보는 나의 성향" /></h2>
 
       <div className="mt-8 grid gap-5 md:grid-cols-3">
         {picked.map((item: any, idx: number) => (
-          <div key={idx} className="rounded-2xl border border-white/10 bg-black/70 p-6">
-            <p className="text-xs font-black uppercase tracking-widest text-yellow-300">
-              {item.type}
+          <div key={idx} className="rounded-2xl border border-[#e5dfea] bg-white p-6">
+            <p className="text-xs font-black uppercase tracking-widest text-[#725b38]">
+              <Txt text={item.type} />
             </p>
-            <h3 className="mt-3 text-2xl font-black text-yellow-100">
-              {item.title}
+            <h3 className="mt-3 text-2xl font-black text-[#725b38]">
+              <Txt text={item.title} />
             </h3>
-            <p className="mt-4 text-sm leading-7 text-gray-300">
-              {item.text}
+            <p className="mt-4 text-sm leading-7 text-[#6d6675]">
+              <Txt text={item.text} />
             </p>
           </div>
         ))}
