@@ -1,3 +1,4 @@
+
 const GENERATES = {
   Tree: "Fire",
   Fire: "Earth",
@@ -24,9 +25,18 @@ function climateUsefulEnergyByMonth(monthBranchIndex) {
 
 function calculateUsefulEnergySet(strength, pillars) {
   const dayEnergy = strength.dayEnergy
+  const level = strength.level
 
+  if (!GENERATES[dayEnergy]) {
+    throw new Error("Invalid Day Master energy")
+  }
+
+  // 조후용신 우선 정책 유지
   if (strength.climateMode) {
-    const useful = climateUsefulEnergyByMonth(pillars.month.branch.index)
+    const useful = climateUsefulEnergyByMonth(
+      pillars.month.branch.index
+    )
+
     return {
       usefulEnergy: useful,
       supportingEnergy: childElementOf(useful),
@@ -34,27 +44,44 @@ function calculateUsefulEnergySet(strength, pillars) {
     }
   }
 
-  if (strength.level === "Very Strong" || strength.level === "Strong") {
+  // 신강, 신태강, 극신강
+  if (
+    level === "Strong" ||
+    level === "Very Strong" ||
+    level === "Extremely Strong"
+  ) {
     return {
       usefulEnergy: childElementOf(dayEnergy),
       supportingEnergy: wealthElementOf(dayEnergy),
-      usefulMethod: "Strong Day Master: Output first, Wealth second"
+      usefulMethod:
+        "Strong Day Master: Output first, Wealth second"
     }
   }
 
-  if (strength.level === "Weak" || strength.level === "Very Weak") {
+  // 신약 영역
+  if (
+    level === "Weak" ||
+    level === "Very Weak"
+  ) {
     return {
       usefulEnergy: strength.motherEnergy,
       supportingEnergy: dayEnergy,
-      usefulMethod: "Weak Day Master: Resource first, Peer second"
+      usefulMethod:
+        "Weak Day Master: Resource first, Peer second"
     }
   }
 
-  return {
-    usefulEnergy: childElementOf(dayEnergy),
-    supportingEnergy: wealthElementOf(dayEnergy),
-    usefulMethod: "Balanced Day Master: Output and Wealth flow"
+  // 중화
+  if (level === "Balanced") {
+    return {
+      usefulEnergy: childElementOf(dayEnergy),
+      supportingEnergy: wealthElementOf(dayEnergy),
+      usefulMethod:
+        "Balanced Day Master: Output and Wealth flow"
+    }
   }
+
+  throw new Error(`Unsupported strength level: ${level}`)
 }
 
 module.exports = { calculateUsefulEnergySet }

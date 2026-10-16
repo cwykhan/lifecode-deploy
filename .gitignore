@@ -40,3 +40,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 /data/visitor-count.txt
+
+# Local PayPal credentials
+.env.local
+PAYPAL_CLIENT_ID=*.txt
+
+# Local source backups
+*.bak_payment_*

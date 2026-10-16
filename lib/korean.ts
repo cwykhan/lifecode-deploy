@@ -51,7 +51,7 @@ Blue:"푸른",Red:"붉은",Golden:"황금빛",Silver:"은빛",Black:"검은",Cos
 "Influence period. Reputation, leadership, teaching, consulting, or asset consolidation become important.":"평판, 리더십, 교육, 자문과 자산 정리가 중요해지는 시기입니다.",
 "Legacy period. Wisdom, family influence, accumulated resources, and spiritual direction become central.":"지혜, 가족에 미치는 영향, 축적한 자원과 내면의 방향이 중심이 되는 시기입니다.",
 "Explorer Report":"탐색 리포트","Navigator Report":"방향 리포트","Strategist Report":"전략 리포트","LifeCode Blueprint":"라이프코드 종합 리포트",
-"Very Strong":"극신강","Strong":"신강","Balanced":"중화","Weak":"신약","Very Weak":"극신약",
+"Extremely Strong":"극신강","Very Strong":"신태강","Strong":"신강","Balanced":"중화","Weak":"신약","Very Weak":"극신약",
 "Spring Earth":"봄의 토","Summer Earth":"여름의 토","Autumn Earth":"가을의 토","Winter Earth":"겨울의 토",
 "Expansion, growth, vision, and movement":"확장, 성장, 비전과 움직임","Adaptation, learning, inner growth, and flexibility":"적응, 학습, 내면의 성장과 유연성","Passion, action, visibility, and direct power":"열정, 행동, 존재감과 직접적인 힘","Inner flame, sensitivity, warmth, and hidden intensity":"내면의 불꽃, 감수성, 따뜻함과 숨은 강렬함","Stability, structure, responsibility, and gravity":"안정, 구조, 책임감과 무게감","Nurturing ground, storage, patience, and silent strength":"양육의 바탕, 축적, 인내와 조용한 힘","Judgment, precision, discipline, and refinement":"판단, 정확성, 절제와 정제","Beauty, elegance, internal order, and selective clarity":"아름다움, 우아함, 내적 질서와 명확한 선택","Movement, intelligence, flow, and strategy":"움직임, 지성, 흐름과 전략","Depth, memory, intuition, and hidden knowledge":"깊이, 기억, 직관과 내면의 지식"
 }

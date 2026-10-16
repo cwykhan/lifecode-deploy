@@ -1,8 +1,15 @@
-const PILLAR_WEIGHTS = {
-  month: 35,
-  day: 25,
-  hour: 22,
-  year: 18
+
+const ROOT_WEIGHTS = {
+  day: 12,
+  month: 10,
+  hour: 8,
+  year: 5
+}
+
+const STEM_WEIGHTS = {
+  month: 9,
+  hour: 7,
+  year: 6
 }
 
 const GEONROK_BRANCH = {
@@ -13,148 +20,160 @@ const GEONROK_BRANCH = {
   W: 11, w: 0
 }
 
-function getStrengthLevel5(value) {
-  if (value >= 60) return { level: "Very Strong", koreanLevel: "극강" }
-  if (value >= 40) return { level: "Strong", koreanLevel: "강" }
-  if (value >= 30) return { level: "Balanced", koreanLevel: "중화" }
-  if (value >= 20) return { level: "Weak", koreanLevel: "약" }
-  return { level: "Very Weak", koreanLevel: "극약" }
+function getStrengthLevel(value) {
+  if (value >= 65) {
+    return {
+      level: "Extremely Strong",
+      koreanLevel: "극신강"
+    }
+  }
+
+  if (value >= 55) {
+    return {
+      level: "Very Strong",
+      koreanLevel: "신태강"
+    }
+  }
+
+  if (value >= 45) {
+    return {
+      level: "Strong",
+      koreanLevel: "신강"
+    }
+  }
+
+  if (value >= 38) {
+    return {
+      level: "Balanced",
+      koreanLevel: "중화"
+    }
+  }
+
+  return {
+    level: "Weak",
+    koreanLevel: "신약"
+  }
 }
 
 function calculateDayStrength({
   pillars,
   hiddenSkyEnergy,
   elementOfStemSymbol,
-  motherElementOf
+  motherElementOf,
+  fiveEnergy
 }) {
   const dayStemSymbol = pillars.day.stem.symbol
   const dayEnergy = pillars.day.stem.element
   const motherEnergy = motherElementOf(dayEnergy)
 
-  const detail = []
+  if (!motherEnergy) {
+    throw new Error("Mother energy not found")
+  }
 
-  /*
-   * K-UPFATE Strength Engine v4
-   *
-   * Day Master strength is separated into:
-   *
-   * 1. Deukryeong (得令) : seasonal/month command
-   * 2. Deukji     (得地) : roots in earthly branches
-   * 3. Deukse     (得勢) : support from heavenly stems
-   *
-   * Maximum structural score = 100.
-   *
-   * Important:
-   * hidden stems are NOT scored once as ordinary energy
-   * and again as a bonus. This removes the previous
-   * double-counting problem.
-   */
+  const ratio = fiveEnergy?.ratio
+
+  if (!ratio) {
+    throw new Error("Five energy ratio missing")
+  }
+
+  const peerRatio = ratio[dayEnergy]
+  const resourceRatio = ratio[motherEnergy]
+
+  if (
+    !Number.isFinite(peerRatio) ||
+    !Number.isFinite(resourceRatio)
+  ) {
+    throw new Error("Invalid five energy ratio")
+  }
+
+  const supportRatio = Number(
+    (peerRatio + resourceRatio).toFixed(2)
+  )
+
+  const lv = getStrengthLevel(supportRatio)
+
+  const detail = []
 
   let deukryeong = 0
   let deukji = 0
   let deukse = 0
 
-  // --------------------------------------------------
-  // 1. 得令 - MONTH COMMAND (maximum 40)
-  // --------------------------------------------------
-
+  // 1. 得令: 월령의 지원
   const monthBranch = pillars.month.branch
-  const monthHse = hiddenSkyEnergy[monthBranch.index] || []
+  const monthHse =
+    hiddenSkyEnergy[monthBranch.index] || []
 
   if (monthBranch.element === dayEnergy) {
     deukryeong += 32
-    detail.push("Deukryeong: month branch same element +32")
+    detail.push("Deukryeong: same month element +32")
   } else if (monthBranch.element === motherEnergy) {
     deukryeong += 24
-    detail.push("Deukryeong: month branch generates Day Master +24")
+    detail.push("Deukryeong: generating month element +24")
   }
-
-  // Month hidden stems give secondary seasonal support.
-  // Keep this small because the month branch itself
-  // has already received the main seasonal weight.
 
   if (monthHse.includes(dayStemSymbol)) {
     deukryeong += 6
-    detail.push("Deukryeong: Day Stem rooted in month hidden stems +6")
-  } else {
-    const hasMother = monthHse.some(
-      (s) => elementOfStemSymbol(s) === motherEnergy
+    detail.push("Deukryeong: direct month root +6")
+  } else if (
+    monthHse.some(
+      s => elementOfStemSymbol(s) === motherEnergy
     )
-
-    if (hasMother) {
-      deukryeong += 4
-      detail.push("Deukryeong: mother element in month hidden stems +4")
-    }
+  ) {
+    deukryeong += 4
+    detail.push("Deukryeong: resource month root +4")
   }
 
-  // 건록 is meaningful but must not dominate the score.
-  if (GEONROK_BRANCH[dayStemSymbol] === monthBranch.index) {
+  if (
+    GEONROK_BRANCH[dayStemSymbol] ===
+    monthBranch.index
+  ) {
     deukryeong += 2
-    detail.push("Deukryeong: Geonrok month +2")
+    detail.push("Deukryeong: Geonrok +2")
   }
 
   deukryeong = Math.min(40, deukryeong)
 
-  // --------------------------------------------------
-  // 2. 得地 - EARTHLY ROOTS (maximum 35)
-  // --------------------------------------------------
-
-  const ROOT_WEIGHTS = {
-    day: 12,
-    month: 10,
-    hour: 8,
-    year: 5
-  }
-
+  // 2. 得地: 지지 통근
   let tonggeunCount = 0
 
   for (const key of ["year", "month", "day", "hour"]) {
     const branch = pillars[key].branch
     const hse = hiddenSkyEnergy[branch.index] || []
-    const rootWeight = ROOT_WEIGHTS[key]
+    const weight = ROOT_WEIGHTS[key]
 
     if (hse.includes(dayStemSymbol)) {
-      deukji += rootWeight
+      deukji += weight
       tonggeunCount++
-      detail.push(`Deukji: ${key} direct root +${rootWeight}`)
+      detail.push(`Deukji: ${key} direct root +${weight}`)
       continue
     }
 
-    const sameElementRoot = hse.some(
-      (s) => elementOfStemSymbol(s) === dayEnergy
-    )
-
-    if (sameElementRoot) {
-      const v = rootWeight * 0.7
+    if (
+      hse.some(
+        s => elementOfStemSymbol(s) === dayEnergy
+      )
+    ) {
+      const v = weight * 0.7
       deukji += v
       tonggeunCount++
-      detail.push(`Deukji: ${key} same-element root +${v}`)
+      detail.push(`Deukji: ${key} peer root +${v}`)
       continue
     }
 
-    const motherRoot = hse.some(
-      (s) => elementOfStemSymbol(s) === motherEnergy
-    )
-
-    if (motherRoot) {
-      const v = rootWeight * 0.4
+    if (
+      hse.some(
+        s => elementOfStemSymbol(s) === motherEnergy
+      )
+    ) {
+      const v = weight * 0.4
       deukji += v
-      detail.push(`Deukji: ${key} generating root +${v}`)
+      detail.push(`Deukji: ${key} resource root +${v}`)
     }
   }
 
   deukji = Math.min(35, deukji)
 
-  // --------------------------------------------------
-  // 3. 得勢 - HEAVENLY STEM SUPPORT (maximum 25)
-  // --------------------------------------------------
-
-  const STEM_WEIGHTS = {
-    month: 9,
-    hour: 7,
-    year: 6
-  }
-
+  // 3. 得勢: 천간의 지원
   let peerCount = 0
 
   for (const key of ["year", "month", "hour"]) {
@@ -164,31 +183,33 @@ function calculateDayStrength({
     if (stemEnergy === dayEnergy) {
       deukse += weight
       peerCount++
-      detail.push(`Deukse: ${key} heavenly peer +${weight}`)
+      detail.push(`Deukse: ${key} peer +${weight}`)
     } else if (stemEnergy === motherEnergy) {
       const v = weight * 0.7
       deukse += v
-      detail.push(`Deukse: ${key} resource support +${v}`)
+      detail.push(`Deukse: ${key} resource +${v}`)
     }
   }
 
-  // Day stem itself is deliberately excluded.
-  // It is the subject being measured, not supporting evidence.
-
   deukse = Math.min(25, deukse)
 
-  // --------------------------------------------------
-  // FINAL
-  // --------------------------------------------------
+  const structuralScore = Number(
+    Math.min(
+      100,
+      deukryeong + deukji + deukse
+    ).toFixed(2)
+  )
 
-  const rawValue = deukryeong + deukji + deukse
-  const value = Number(Math.min(100, rawValue).toFixed(2))
-
-  const lv = getStrengthLevel5(value)
+  detail.push(
+    `Peer energy: ${peerRatio}%`,
+    `Resource energy: ${resourceRatio}%`,
+    `Combined support: ${supportRatio}%`,
+    `Strength classification: ${lv.koreanLevel}`
+  )
 
   return {
-    value,
-    score: value,
+    value: supportRatio,
+    score: supportRatio,
 
     level: lv.level,
     koreanLevel: lv.koreanLevel,
@@ -196,27 +217,37 @@ function calculateDayStrength({
     dayEnergy,
     motherEnergy,
 
-    // This field remains for API compatibility.
-    // Actual Five-Energy dominance is calculated separately.
     dominantEnergy: dayEnergy,
 
     monthBranchEnergy: monthBranch.element,
+    climateMode:
+      monthBranch.element === dayEnergy,
 
-    climateMode: monthBranch.element === dayEnergy,
+    support: {
+      peerEnergy: dayEnergy,
+      peerRatio,
+      resourceEnergy: motherEnergy,
+      resourceRatio,
+      totalRatio: supportRatio
+    },
 
     structure: {
       deukryeong: Number(deukryeong.toFixed(2)),
       deukji: Number(deukji.toFixed(2)),
-      deukse: Number(deukse.toFixed(2))
+      deukse: Number(deukse.toFixed(2)),
+      structuralScore
     },
 
     tonggeunCount,
     peerCount,
 
-    method: "K-UPFATE Strength Engine v4",
+    method: "K-UPFATE Strength Engine v5",
 
     detail
   }
 }
 
-module.exports = { calculateDayStrength }
+module.exports = {
+  calculateDayStrength,
+  getStrengthLevel
+}

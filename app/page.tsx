@@ -3,8 +3,6 @@
 import { useEffect, useState } from "react"
 import Landing from "@/components/Landing"
 import Bi from "@/components/BilingualText"
-import { generateReport } from "@/lib/reportText"
-import { getBronzeReport, getSilverReport, getGoldReport, getPlatinumReport } from "@/lib/premiumReports"
 import { generateDestinyExperience } from "@/lib/destinyCode"
 import PayPalButton from "@/components/PayPalButton"
 import ShareSignatureButton from "@/components/ShareSignatureButton"
@@ -27,12 +25,6 @@ const paidPlans = [
   { id: "platinum", name: "PLATINUM", price: "$50", desc: "Full strategic K-UPFATE blueprint." }
 ]
 
-const reportPlanMap: Record<string, string> = {
-  bronze: "commons",
-  silver: "merchants",
-  gold: "nobility",
-  platinum: "emperor"
-}
 
 const energyColor: Record<string, string> = {
   Tree: "bg-blue-500",
@@ -61,22 +53,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false)
   const [visitorCount, setVisitorCount] = useState<number>(10000)
 
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search)
-    const unlocked = params.get("unlocked")
-    const savedResult = localStorage.getItem("lastSajuResult")
 
-    if (unlocked) {
-      setPaidPlan(unlocked)
-      setSelectedPlan(unlocked)
-
-      if (savedResult) {
-        try {
-          setResult(JSON.parse(savedResult))
-        } catch {}
-      }
-    }
-  }, [])
 
 
   useEffect(() => {
@@ -142,7 +119,6 @@ export default function Home() {
   const pillars = result?.pillars
   const five = result?.fiveEnergy?.ratio
   const destiny = result ? generateDestinyExperience(result) : null
-  const report = result ? generateReport(result, reportPlanMap[selectedPlan]) : ""
 
   return (
     <main className="site-shell">
@@ -289,8 +265,10 @@ export default function Home() {
                           </ul>
                         </div>
 
-                        <PayPalButton plan={selectedPlan} />
-                      </>
+                        <PayPalButton plan={selectedPlan}
+                        sajuInput={result?.input}
+                        />
+                        </>
                     )}
                   </div>
                 </div>

@@ -91,7 +91,8 @@ function normalizeCResult(raw) {
     pillars,
     hiddenSkyEnergy: HIDDEN_SKY_ENERGY,
     elementOfStemSymbol,
-    motherElementOf
+    motherElementOf,
+    fiveEnergy
   })
 
   const dominantEnergy = ELEMENTS.reduce((a, b) =>
