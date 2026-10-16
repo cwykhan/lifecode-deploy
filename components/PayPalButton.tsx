@@ -7,7 +7,7 @@ const BRONZE_PAYMENT_LINK =
   "https://www.paypal.com/ncp/payment/T729EHJGQA42L"
 
 // 자동 결제·리포트 연결 테스트 전까지 비활성화
-const USE_ORDERS_API = false
+const USE_ORDERS_API = true
 
 type SajuInput = {
   year: number
