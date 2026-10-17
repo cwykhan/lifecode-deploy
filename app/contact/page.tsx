@@ -1,8 +1,8 @@
 import Bi from "@/components/BilingualText"
 export default function ContactPage() {
   return (
-    <main className="min-h-screen bg-white p-10 text-[#373341]">
-      <h1 className="text-5xl font-black text-[#725b38]"><Bi en="Contact Support" ko="고객 문의" /></h1>
+    <main className="min-h-screen bg-[#102039] p-10 text-[#edf5ff]">
+      <h1 className="text-5xl font-black text-[#e9f4ff]"><Bi en="Contact Support" ko="고객 문의" /></h1>
 
       <div className="mt-8 space-y-4 text-xl">
         <p><Bi en="Email: janus101@live.co.kr" ko="문의 이메일: janus101@live.co.kr" /></p>

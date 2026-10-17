@@ -142,48 +142,48 @@ export default function SuccessPage() {
   }, [])
 
   return (
-    <main className="min-h-screen bg-[#faf9f6] px-5 py-12 text-slate-800">
+    <main className="min-h-screen bg-[#142744] px-5 py-12 text-[#f4f8ff]">
       <div className="mx-auto max-w-4xl">
 
         <header className="mb-10 text-center">
           <Link
             href="/"
-            className="text-3xl font-black tracking-widest text-amber-800"
+            className="text-3xl font-black tracking-widest text-[#a6e2ff]"
           >
-            ✧ K-UPFATE.
+            ✧ kupfate.
           </Link>
         </header>
 
         {loading && (
-          <div className="rounded-3xl border border-amber-200 bg-white p-10 text-center shadow-sm">
-            <h1 className="text-2xl font-bold text-amber-800">
+          <div className="rounded-3xl border border-[#397cba] bg-[#102039] p-10 text-center shadow-sm">
+            <h1 className="text-2xl font-bold text-[#a6e2ff]">
               Verifying Your Payment
             </h1>
-            <p className="mt-4 text-slate-600">
+            <p className="mt-4 text-[#c5d9f0]">
               결제를 확인하고 개인별 사주 리포트를 준비하고 있습니다.
             </p>
           </div>
         )}
 
         {!loading && error && (
-          <div className="rounded-3xl border border-red-200 bg-white p-10 text-center shadow-sm">
+          <div className="rounded-3xl border border-red-200 bg-[#102039] p-10 text-center shadow-sm">
             <h1 className="text-2xl font-bold text-red-700">
               Payment Verification Pending
             </h1>
-            <p className="mt-4 text-slate-600">
+            <p className="mt-4 text-[#c5d9f0]">
               결제 또는 리포트 확인을 완료하지 못했습니다.
             </p>
             <p className="mt-4 text-sm text-red-600">
               {error}
             </p>
-            <p className="mt-4 text-sm text-slate-500">
+            <p className="mt-4 text-sm text-[#b2c9e4]">
               이미 결제하셨다면 다시 결제하지 마시고
               이 페이지에서 다시 확인해 주세요.
             </p>
             <button
               type="button"
               onClick={() => window.location.reload()}
-              className="mt-6 rounded-xl bg-amber-600 px-6 py-3 font-bold text-white"
+              className="mt-6 rounded-xl bg-[#195c89] px-6 py-3 font-bold text-white"
             >
               Retry / 다시 확인
             </button>
@@ -192,24 +192,24 @@ export default function SuccessPage() {
 
         {!loading && data && (
           <div className="space-y-8">
-            <div className="rounded-3xl border border-amber-300 bg-white p-8 text-center shadow-sm">
-              <p className="text-sm font-bold tracking-widest text-amber-700">
+            <div className="rounded-3xl border border-[#397cba] bg-[#102039] p-8 text-center shadow-sm">
+              <p className="text-sm font-bold tracking-widest text-[#9cdbff]">
                 PAYMENT VERIFIED
               </p>
-              <h1 className="mt-4 text-3xl font-black text-amber-800">
+              <h1 className="mt-4 text-3xl font-black text-[#a6e2ff]">
                 Your Bronze Report Is Ready
               </h1>
-              <p className="mt-3 text-slate-600">
+              <p className="mt-3 text-[#c5d9f0]">
                 결제가 확인되었습니다. 개인별 브론즈 리포트가 열렸습니다.
               </p>
             </div>
 
-            <section className="rounded-3xl border border-amber-200 bg-white p-8 shadow-sm">
-              <h2 className="text-2xl font-black text-amber-800">
+            <section className="rounded-3xl border border-[#397cba] bg-[#102039] p-8 shadow-sm">
+              <h2 className="text-2xl font-black text-[#a6e2ff]">
                 Explorer Report · Bronze $5
               </h2>
 
-              <div className="mt-8 whitespace-pre-line text-lg leading-9 text-slate-700">
+              <div className="mt-8 whitespace-pre-line text-lg leading-9 text-[#e4efff]">
                 {data.report}
               </div>
             </section>
@@ -217,9 +217,9 @@ export default function SuccessPage() {
             <div className="text-center">
               <Link
                 href="/"
-                className="inline-block rounded-xl border border-amber-300 px-6 py-3 font-bold text-amber-800"
+                className="inline-block rounded-xl border border-[#397cba] px-6 py-3 font-bold text-[#a6e2ff]"
               >
-                K-UPFATE Home / 홈으로
+                kupfate Home / 홈으로
               </Link>
             </div>
           </div>

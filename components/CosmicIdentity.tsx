@@ -37,47 +37,47 @@ export default function CosmicIdentity({ result }: { result: any }) {
   ]
 
   return (
-    <div className="rounded-3xl border border-yellow-400/30 bg-white p-8 shadow-sm">
-      <p className="text-sm uppercase tracking-[0.45em] text-[#725b38]"><Bi en="Cosmic Identity" ko="나의 기운과 상징" /></p>
+    <div className="rounded-3xl border border-[#397cba]/30 bg-[#102039] p-8 shadow-sm">
+      <p className="text-sm uppercase tracking-[0.45em] text-[#e9f4ff]"><Bi en="Cosmic Identity" ko="나의 기운과 상징" /></p>
 
-      <h2 className="mt-5 text-5xl font-black text-[#725b38]">
+      <h2 className="mt-5 text-5xl font-black text-[#e9f4ff]">
         <Txt text={dominantPlanet.aura} />
       </h2>
 
       <div className="mt-8 grid gap-5 md:grid-cols-3">
-        <div className="rounded-2xl border border-[#e5dfea] bg-white p-6">
-          <p className="text-[#6d6675]"><Bi en="Dominant Planet" ko="두드러진 행성 상징" /></p>
-          <p className="mt-3 text-3xl font-black text-[#373341]">
+        <div className="rounded-2xl border border-[#31557a] bg-[#102039] p-6">
+          <p className="text-[#b3cce5]"><Bi en="Dominant Planet" ko="두드러진 행성 상징" /></p>
+          <p className="mt-3 text-3xl font-black text-[#edf5ff]">
             <Txt text={dominantPlanet.planet} />
           </p>
         </div>
 
-        <div className="rounded-2xl border border-[#e5dfea] bg-white p-6">
-          <p className="text-[#6d6675]"><Bi en="Lucky Planet" ko="도움이 되는 행성 상징" /></p>
-          <p className="mt-3 text-3xl font-black text-[#516d88]">
+        <div className="rounded-2xl border border-[#31557a] bg-[#102039] p-6">
+          <p className="text-[#b3cce5]"><Bi en="Lucky Planet" ko="도움이 되는 행성 상징" /></p>
+          <p className="mt-3 text-3xl font-black text-[#91dfff]">
             <Txt text={usefulPlanet.planet} />
           </p>
         </div>
 
-        <div className="rounded-2xl border border-[#e5dfea] bg-white p-6">
-          <p className="text-[#6d6675]"><Bi en="Soul Age" ko="영혼의 성숙 유형" /></p>
-          <p className="mt-3 text-3xl font-black text-[#986366]">
+        <div className="rounded-2xl border border-[#31557a] bg-[#102039] p-6">
+          <p className="text-[#b3cce5]"><Bi en="Soul Age" ko="영혼의 성숙 유형" /></p>
+          <p className="mt-3 text-3xl font-black text-[#72d9ff]">
             <Txt text={soulAge} />
           </p>
         </div>
       </div>
 
       <div className="mt-8">
-        <h3 className="text-2xl font-black text-[#725b38]"><Bi en="Planet Influence" ko="행성별 기운 비율" /></h3>
+        <h3 className="text-2xl font-black text-[#e9f4ff]"><Bi en="Planet Influence" ko="행성별 기운 비율" /></h3>
 
         <div className="mt-5 space-y-4">
           {planetInfluence.map(([name, value]: any) => (
             <div key={name}>
-              <div className="flex justify-between text-sm font-bold text-[#6d6675]">
+              <div className="flex justify-between text-sm font-bold text-[#b3cce5]">
                 <span><Txt text={name} /></span>
                 <span>{value}%</span>
               </div>
-              <div className="mt-2 h-4 rounded-full bg-white/10">
+              <div className="mt-2 h-4 rounded-full bg-[#19314b]/70">
                 <div
                   className="h-4 rounded-full bg-yellow-300"
                   style={{ width: `${value}%` }}

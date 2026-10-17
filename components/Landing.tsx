@@ -6,12 +6,12 @@ export default function Landing(p:Props){
  function submit(e:FormEvent){e.preventDefault();if(!p.loading)p.decode()}
  return <>
   <header className="site-header">
-   <a href="/" className="brand" aria-label="K-UPFATE home / 홈"><span className="brand-mark" aria-hidden="true">K<span>/</span></span>K-UPFATE<span className="brand-dot">®</span></a>
+   <a href="/" className="brand" aria-label="kupfate home / 홈"><span className="brand-mark" aria-hidden="true">K<span>/</span></span>kupfate<span className="brand-dot">®</span></a>
    <nav aria-label="Main navigation / 주 메뉴"><a href="#discover"><Bi en="THE ORIGIN" ko="탄생의 코드"/></a><a href="#elements"><Bi en="FIVE ENERGIES" ko="다섯 가지 기운"/></a><a href="#reading" className="nav-reading"><Bi en="DECODE NOW ↗" ko="무료로 해독하기"/></a></nav>
   </header>
   <section className="hero-stage" id="discover">
    <div className="hero-visual" aria-hidden="true"><img src="/images/origin-hologram-v2.png" alt="" fetchPriority="high"/></div>
-   <div className="sf-coordinate" aria-hidden="true">K–UPFATE / ORIGIN EXPLORER <span>01 — 05</span></div>
+   <div className="sf-coordinate" aria-hidden="true">kupfate / ORIGIN EXPLORER <span>01 — 05</span></div>
    <div className="hero-copy">
     <div className="eyebrow"><span className="status-dot"/><Bi en="ANCIENT WISDOM. A NEW INTERFACE." ko="오래된 지혜를, 미래의 언어로."/></div>
     <h1>DECODE<br/>YOUR <span>ORIGIN.</span><span lang="ko" className="hero-ko">당신의 탄생 코드를 해독하다.</span></h1>

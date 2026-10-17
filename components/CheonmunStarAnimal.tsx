@@ -50,50 +50,50 @@ export default function CheonmunStarAnimal({ result }: { result: any }) {
   const pk = starAnimalKorean[koName]
 
   return (
-    <div className="rounded-3xl border border-yellow-300/25 bg-white p-8 shadow-sm">
-      <p className="text-sm uppercase tracking-[0.45em] text-[#725b38]"><Bi en="Korean Astro Twenty-Eight Mansions" ko="한국 천문 28수" /></p>
+    <div className="rounded-3xl border border-yellow-300/25 bg-[#102039] p-8 shadow-sm">
+      <p className="text-sm uppercase tracking-[0.45em] text-[#e9f4ff]"><Bi en="Korean Astro Twenty-Eight Mansions" ko="한국 천문 28수" /></p>
 
       <div className="mt-6 grid gap-8 md:grid-cols-[180px_1fr] md:items-center">
-        <div className="mx-auto grid h-40 w-40 place-items-center rounded-full border border-yellow-300/30 bg-[#faf3e6] p-3">
+        <div className="mx-auto grid h-40 w-40 place-items-center rounded-full border border-yellow-300/30 bg-[#152947] p-3">
           <img src={`/star-animals/${img}.png`} alt={enName} className="h-32 w-32 object-contain" />
         </div>
 
         <div>
-          <h2 className="text-5xl font-black text-[#725b38]">{enName}</h2>
-          <p className="mt-2 text-2xl font-black text-[#986366]">{koName}</p>
+          <h2 className="text-5xl font-black text-[#e9f4ff]">{enName}</h2>
+          <p className="mt-2 text-2xl font-black text-[#72d9ff]">{koName}</p>
 
-          <p className="mt-5 text-lg leading-8 text-[#373341]">{p.en}</p>
-          <p className="mt-3 text-base leading-7 text-[#6d6675]">{p.ko}</p>
+          <p className="mt-5 text-lg leading-8 text-[#edf5ff]">{p.en}</p>
+          <p className="mt-3 text-base leading-7 text-[#b3cce5]">{p.ko}</p>
         </div>
       </div>
 
       <div className="mt-6 grid gap-4 md:grid-cols-3">
-        <div className="rounded-2xl border border-[#e5dfea] bg-white p-4">
-          <p className="text-xs uppercase tracking-widest text-[#6d6675]"><Bi en="Birth Animal" ko="태어난 해의 띠" /></p>
-          <p className="mt-2 text-xl font-black text-[#725b38]"><Txt text={branchName[yearBranch]} /></p>
+        <div className="rounded-2xl border border-[#31557a] bg-[#102039] p-4">
+          <p className="text-xs uppercase tracking-widest text-[#b3cce5]"><Bi en="Birth Animal" ko="태어난 해의 띠" /></p>
+          <p className="mt-2 text-xl font-black text-[#e9f4ff]"><Txt text={branchName[yearBranch]} /></p>
         </div>
-        <div className="rounded-2xl border border-[#e5dfea] bg-white p-4">
-          <p className="text-xs uppercase tracking-widest text-[#6d6675]"><Bi en="Birth Month" ko="태어난 달" /></p>
-          <p className="mt-2 text-xl font-black text-[#725b38]">{month}</p>
+        <div className="rounded-2xl border border-[#31557a] bg-[#102039] p-4">
+          <p className="text-xs uppercase tracking-widest text-[#b3cce5]"><Bi en="Birth Month" ko="태어난 달" /></p>
+          <p className="mt-2 text-xl font-black text-[#e9f4ff]">{month}</p>
         </div>
-        <div className="rounded-2xl border border-[#e5dfea] bg-white p-4">
-          <p className="text-xs uppercase tracking-widest text-[#6d6675]"><Bi en="Month Range" ko="해당 월 범위" /></p>
-          <p className="mt-2 text-xl font-black text-[#725b38]">{from}-{to}</p>
+        <div className="rounded-2xl border border-[#31557a] bg-[#102039] p-4">
+          <p className="text-xs uppercase tracking-widest text-[#b3cce5]"><Bi en="Month Range" ko="해당 월 범위" /></p>
+          <p className="mt-2 text-xl font-black text-[#e9f4ff]">{from}-{to}</p>
         </div>
       </div>
 
       <div className="mt-6 grid gap-4 md:grid-cols-3">
-        <div className="rounded-2xl border border-yellow-300/15 bg-[#faf3e6] p-5">
-          <p className="font-black text-[#725b38]"><Bi en="Career" ko="직업" /></p>
-          <p className="mt-2 text-sm leading-6 text-[#6d6675]"><Bi en={p.career} ko={pk?.career || ""} /></p>
+        <div className="rounded-2xl border border-yellow-300/15 bg-[#152947] p-5">
+          <p className="font-black text-[#e9f4ff]"><Bi en="Career" ko="직업" /></p>
+          <p className="mt-2 text-sm leading-6 text-[#b3cce5]"><Bi en={p.career} ko={pk?.career || ""} /></p>
         </div>
-        <div className="rounded-2xl border border-yellow-300/15 bg-[#faf3e6] p-5">
-          <p className="font-black text-[#725b38]"><Bi en="Wealth" ko="재물" /></p>
-          <p className="mt-2 text-sm leading-6 text-[#6d6675]"><Bi en={p.wealth} ko={pk?.wealth || ""} /></p>
+        <div className="rounded-2xl border border-yellow-300/15 bg-[#152947] p-5">
+          <p className="font-black text-[#e9f4ff]"><Bi en="Wealth" ko="재물" /></p>
+          <p className="mt-2 text-sm leading-6 text-[#b3cce5]"><Bi en={p.wealth} ko={pk?.wealth || ""} /></p>
         </div>
-        <div className="rounded-2xl border border-yellow-300/15 bg-[#faf3e6] p-5">
-          <p className="font-black text-[#725b38]"><Bi en="Relationship" ko="관계" /></p>
-          <p className="mt-2 text-sm leading-6 text-[#6d6675]"><Bi en={p.relationship} ko={pk?.relationship || ""} /></p>
+        <div className="rounded-2xl border border-yellow-300/15 bg-[#152947] p-5">
+          <p className="font-black text-[#e9f4ff]"><Bi en="Relationship" ko="관계" /></p>
+          <p className="mt-2 text-sm leading-6 text-[#b3cce5]"><Bi en={p.relationship} ko={pk?.relationship || ""} /></p>
         </div>
       </div>
     </div>

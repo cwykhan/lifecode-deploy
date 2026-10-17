@@ -6,7 +6,7 @@ export default function ShareSignatureButton({ result }: { result: any }) {
   const useful = result?.usefulEnergy || "Metal"
   const day = result?.pillars?.day?.stem?.symbol || ""
 
-  const text = `I discovered my Life Signature on K-UPFATE.
+  const text = `I discovered my Life Signature on kupfate.
 
 Planet Energy: ${dominant}
 Useful Energy: ${useful}
@@ -28,7 +28,7 @@ https://kupfate.com`
   return (
     <button
       onClick={share}
-      className="rounded-2xl border border-cyan-300/40 bg-cyan-500/10 px-7 py-4 text-lg font-black text-[#516d88] transition hover:bg-cyan-500/20"
+      className="rounded-2xl border border-cyan-300/40 bg-cyan-500/10 px-7 py-4 text-lg font-black text-[#91dfff] transition hover:bg-cyan-500/20"
     ><Bi en="Share My Life Signature" ko="내 사주 결과 공유하기" /></button>
   )
 }

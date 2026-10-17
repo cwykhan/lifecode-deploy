@@ -64,21 +64,21 @@ export default function TenSpiritPlainReading({ result }: { result: any }) {
   if (!picked.length) return null
 
   return (
-    <div className="rounded-3xl border border-blue-300/20 bg-white p-8 shadow-sm">
-      <p className="text-sm uppercase tracking-[0.45em] text-[#516d88]"><Bi en="Human Pattern Reading" ko="내면의 행동 성향" /></p>
+    <div className="rounded-3xl border border-blue-300/20 bg-[#102039] p-8 shadow-sm">
+      <p className="text-sm uppercase tracking-[0.45em] text-[#91dfff]"><Bi en="Human Pattern Reading" ko="내면의 행동 성향" /></p>
 
-      <h2 className="mt-5 text-4xl font-black text-[#516d88]"><Bi en="What your hidden field says about you" ko="지장간으로 알아보는 나의 성향" /></h2>
+      <h2 className="mt-5 text-4xl font-black text-[#91dfff]"><Bi en="What your hidden field says about you" ko="지장간으로 알아보는 나의 성향" /></h2>
 
       <div className="mt-8 grid gap-5 md:grid-cols-3">
         {picked.map((item: any, idx: number) => (
-          <div key={idx} className="rounded-2xl border border-[#e5dfea] bg-white p-6">
-            <p className="text-xs font-black uppercase tracking-widest text-[#725b38]">
+          <div key={idx} className="rounded-2xl border border-[#31557a] bg-[#102039] p-6">
+            <p className="text-xs font-black uppercase tracking-widest text-[#e9f4ff]">
               <Txt text={item.type} />
             </p>
-            <h3 className="mt-3 text-2xl font-black text-[#725b38]">
+            <h3 className="mt-3 text-2xl font-black text-[#e9f4ff]">
               <Txt text={item.title} />
             </h3>
-            <p className="mt-4 text-sm leading-7 text-[#6d6675]">
+            <p className="mt-4 text-sm leading-7 text-[#b3cce5]">
               <Txt text={item.text} />
             </p>
           </div>

@@ -39,26 +39,26 @@ export default function FiveEnergyDonut({ result }: { result: any }) {
     .join(", ")
 
   return (
-    <div className="rounded-3xl border border-yellow-400/30 bg-white p-8 shadow-sm">
-      <p className="text-sm uppercase tracking-[0.45em] text-[#725b38]"><Bi en="Five Planetary Energy Donut" ko="오행 기운 분포" /></p>
+    <div className="rounded-3xl border border-[#397cba]/30 bg-[#102039] p-8 shadow-sm">
+      <p className="text-sm uppercase tracking-[0.45em] text-[#e9f4ff]"><Bi en="Five Planetary Energy Donut" ko="오행 기운 분포" /></p>
 
       <div className="mt-8 grid gap-8 md:grid-cols-[260px_1fr] md:items-center">
         <div className="mx-auto grid h-60 w-60 place-items-center rounded-full border border-yellow-300/30"
           style={{ background: `conic-gradient(${gradient})` }}
         >
-          <div className="grid h-28 w-28 place-items-center rounded-full border border-[#e5dfea] bg-white text-center">
-            <p className="text-sm font-black text-[#725b38]"><Bi en="ENERGY" ko="기운" /></p>
-            <p className="text-xs text-[#6d6675]"><Bi en="BALANCE" ko="균형" /></p>
+          <div className="grid h-28 w-28 place-items-center rounded-full border border-[#31557a] bg-[#102039] text-center">
+            <p className="text-sm font-black text-[#e9f4ff]"><Bi en="ENERGY" ko="기운" /></p>
+            <p className="text-xs text-[#b3cce5]"><Bi en="BALANCE" ko="균형" /></p>
           </div>
         </div>
 
         <div className="space-y-4">
           {items.map((item) => (
             <div key={item.name}>
-              <div className="flex items-center justify-between text-sm font-bold text-[#6d6675]">
+              <div className="flex items-center justify-between text-sm font-bold text-[#b3cce5]">
                 <div className="flex items-center gap-3">
                   <span
-                    className="inline-block h-4 w-4 rounded-full border border-[#e5dfea]"
+                    className="inline-block h-4 w-4 rounded-full border border-[#31557a]"
                     style={{ backgroundColor: item.color }}
                   />
                   <span>{labels[item.name]}</span>
@@ -66,7 +66,7 @@ export default function FiveEnergyDonut({ result }: { result: any }) {
                 <span>{item.value}%</span>
               </div>
 
-              <div className="mt-2 h-3 rounded-full bg-white/10">
+              <div className="mt-2 h-3 rounded-full bg-[#19314b]/70">
                 <div
                   className="h-3 rounded-full"
                   style={{

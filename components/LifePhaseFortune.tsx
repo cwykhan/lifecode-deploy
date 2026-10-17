@@ -91,47 +91,47 @@ export default function LifePhaseFortune({ result }: { result:any }) {
   ]
 
   return (
-    <div className="rounded-3xl border border-emerald-300/20 bg-white p-8">
-      <p className="text-sm uppercase tracking-[0.35em] text-[#4c7863]"><Bi en="Life Phase Fortune Map" ko="생애 시기별 흐름" /></p>
+    <div className="rounded-3xl border border-emerald-300/20 bg-[#102039] p-8">
+      <p className="text-sm uppercase tracking-[0.35em] text-[#b2ddff]"><Bi en="Life Phase Fortune Map" ko="생애 시기별 흐름" /></p>
 
-      <h3 className="mt-4 text-4xl font-black text-[#4c7863]"><Bi en="Early · Youth · Middle · Mature · Later Life" ko="초년 · 청년 · 중년 · 장년 · 노년" /></h3>
+      <h3 className="mt-4 text-4xl font-black text-[#b2ddff]"><Bi en="Early · Youth · Middle · Mature · Later Life" ko="초년 · 청년 · 중년 · 장년 · 노년" /></h3>
 
       <div className="mt-8 space-y-6">
         {phases.map((p) => (
-          <div key={p.title} className="rounded-2xl border border-[#e5dfea] bg-white p-6">
+          <div key={p.title} className="rounded-2xl border border-[#31557a] bg-[#102039] p-6">
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
-                <p className="text-2xl font-black text-[#4c7863]"><Txt text={p.title} /></p>
-                <p className="mt-1 text-sm text-[#6d6675]">Age {p.age}</p>
-                <p className="mt-2 text-lg font-bold text-[#725b38]"><Bi en={p.theme} ko={p.themeKo} /></p>
+                <p className="text-2xl font-black text-[#b2ddff]"><Txt text={p.title} /></p>
+                <p className="mt-1 text-sm text-[#b3cce5]">Age {p.age}</p>
+                <p className="mt-2 text-lg font-bold text-[#e9f4ff]"><Bi en={p.theme} ko={p.themeKo} /></p>
               </div>
 
-              <p className="text-4xl font-black text-[#725b38]">{p.score}</p>
+              <p className="text-4xl font-black text-[#e9f4ff]">{p.score}</p>
             </div>
 
-            <div className="mt-4 h-4 rounded-full bg-white/10">
+            <div className="mt-4 h-4 rounded-full bg-[#19314b]/70">
               <div className="h-4 rounded-full bg-emerald-300" style={{ width: `${p.score}%` }} />
             </div>
 
             <div className="mt-5 grid gap-4 md:grid-cols-2">
-              <div className="rounded-xl border border-[#e5dfea] bg-white p-4">
-                <p className="font-black text-[#4c7863]"><Bi en="Life Meaning" ko="시기의 의미" /></p>
-                <p className="mt-2 text-sm leading-7 text-[#6d6675]"><Bi en={p.text} ko={p.textKo} /></p>
+              <div className="rounded-xl border border-[#31557a] bg-[#102039] p-4">
+                <p className="font-black text-[#b2ddff]"><Bi en="Life Meaning" ko="시기의 의미" /></p>
+                <p className="mt-2 text-sm leading-7 text-[#b3cce5]"><Bi en={p.text} ko={p.textKo} /></p>
               </div>
 
-              <div className="rounded-xl border border-[#e5dfea] bg-white p-4">
-                <p className="font-black text-[#4c7863]"><Bi en="Career Flow" ko="직업 흐름" /></p>
-                <p className="mt-2 text-sm leading-7 text-[#6d6675]"><Bi en={p.career} ko={p.careerKo} /></p>
+              <div className="rounded-xl border border-[#31557a] bg-[#102039] p-4">
+                <p className="font-black text-[#b2ddff]"><Bi en="Career Flow" ko="직업 흐름" /></p>
+                <p className="mt-2 text-sm leading-7 text-[#b3cce5]"><Bi en={p.career} ko={p.careerKo} /></p>
               </div>
 
-              <div className="rounded-xl border border-[#e5dfea] bg-white p-4">
-                <p className="font-black text-[#4c7863]"><Bi en="Wealth Flow" ko="재물 흐름" /></p>
-                <p className="mt-2 text-sm leading-7 text-[#6d6675]"><Bi en={p.wealth} ko={p.wealthKo} /></p>
+              <div className="rounded-xl border border-[#31557a] bg-[#102039] p-4">
+                <p className="font-black text-[#b2ddff]"><Bi en="Wealth Flow" ko="재물 흐름" /></p>
+                <p className="mt-2 text-sm leading-7 text-[#b3cce5]"><Bi en={p.wealth} ko={p.wealthKo} /></p>
               </div>
 
-              <div className="rounded-xl border border-[#e5dfea] bg-white p-4">
-                <p className="font-black text-[#986366]"><Bi en="Caution" ko="유의할 점" /></p>
-                <p className="mt-2 text-sm leading-7 text-[#6d6675]"><Bi en={p.caution} ko={p.cautionKo} /></p>
+              <div className="rounded-xl border border-[#31557a] bg-[#102039] p-4">
+                <p className="font-black text-[#72d9ff]"><Bi en="Caution" ko="유의할 점" /></p>
+                <p className="mt-2 text-sm leading-7 text-[#b3cce5]"><Bi en={p.caution} ko={p.cautionKo} /></p>
               </div>
             </div>
           </div>

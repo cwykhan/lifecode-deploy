@@ -112,7 +112,7 @@ export default function PayPalButton({
       type="button"
       onClick={handleClick}
       disabled={loading}
-      className="mt-8 inline-block rounded-2xl border border-yellow-300 bg-yellow-500/10 px-8 py-4 text-lg font-black text-[#725b38] transition hover:bg-yellow-500/20 disabled:cursor-wait disabled:opacity-60"
+      className="mt-8 inline-block rounded-2xl border border-[#397cba] bg-[#1b3451] px-8 py-4 text-lg font-black text-[#e9f4ff] transition hover:bg-yellow-500/20 disabled:cursor-wait disabled:opacity-60"
     >
       <Bi
         en={
