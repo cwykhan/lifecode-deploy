@@ -103,3 +103,41 @@
 .kupfate-language-switch {position:fixed;z-index:100;bottom:16px;right:16px;display:flex;gap:3px;padding:5px;background:#0a1b31;border:1px solid #3a75a4;border-radius:8px;box-shadow:0 6px 24px #0009}
 .kupfate-language-switch button {border:0;background:transparent;color:#e8f4ff;padding:8px 9px;font:600 12px Arial,sans-serif;border-radius:5px}
 .kupfate-language-switch button[aria-pressed=true] {background:#246a9c;color:white}
+/* kupfate MR 261019 hero image — preserve original aspect ratio */
+.hero-stage .hero-visual {
+  position:absolute;
+  z-index:0;
+  inset:0 -54px 0 auto;
+  width:min(46%, 520px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:visible;
+  pointer-events:none;
+}
+.hero-stage .hero-visual img {
+  display:block;
+  visibility:visible;
+  opacity:1;
+  width:100%;
+  height:auto;
+  max-height:100%;
+  object-fit:contain;
+  object-position:center;
+}
+.hero-stage .hero-visual::after {display:none}
+.hero-stage .hero-copy {position:relative;z-index:1}
+.hero-stage .sf-coordinate,.hero-stage .visual-caption {z-index:1}
+@media (max-width:1100px) and (min-width:701px) {
+  .hero-stage .hero-visual {right:0;width:min(43%, 460px)}
+}
+@media (max-width:700px) {
+  .hero-stage .hero-visual {
+    inset:auto 0 65px 0;
+    width:100%;
+    max-width:520px;
+    margin:0 auto;
+  }
+  .hero-stage .hero-visual img {width:100%;max-height:310px;object-fit:contain}
+}
+/* END kupfate MR image */
