@@ -10,7 +10,7 @@ export default function Landing(p:Props){
    <nav aria-label="Main navigation / 주 메뉴"><a href="#discover"><Bi en="THE ORIGIN" ko="탄생의 코드"/></a><a href="#elements"><Bi en="FIVE ENERGIES" ko="다섯 가지 기운"/></a><a href="#reading" className="nav-reading"><Bi en="DECODE NOW ↗" ko="무료로 해독하기"/></a></nav>
   </header>
   <section className="hero-stage" id="discover">
-   <div className="hero-visual" aria-hidden="true"><img src="/images/kupfate_MR_261019.png" alt="" fetchPriority="high"/></div>
+   <div className="hero-visual" aria-hidden="true"><img src="/images/kupfate_MR_261019.png" alt="" width={789} height={599} fetchPriority="high"/></div>
    <div className="sf-coordinate" aria-hidden="true">kupfate / ORIGIN EXPLORER <span>01 — 05</span></div>
    <div className="hero-copy">
     <div className="eyebrow"><span className="status-dot"/><Bi en="ANCIENT WISDOM. A NEW INTERFACE." ko="오래된 지혜를, 미래의 언어로."/></div>
