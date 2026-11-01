@@ -212,3 +212,178 @@
   .hero-stage .hero-visual::after {display:none;}
   .hero-stage .visual-caption {bottom:12px;right:0;z-index:1;}
 }
+
+/* ================================================================
+   kupfate | Midnight Atelier · Luxury Color System
+   Color-only revision. Existing spacing, sizing, typography,
+   layouts, breakpoints, imagery, interaction and animations remain.
+   ================================================================ */
+:root {
+  --background: #080f1c;
+  --foreground: #f4f0e8;
+  --kf-night: #080f1c;
+  --kf-night-deep: #070d17;
+  --kf-panel: #131f31;
+  --kf-panel-deep: #0d1829;
+  --kf-ivory: #f4f0e8;
+  --kf-champagne: #e5c895;
+  --kf-champagne-light: #f5e8cc;
+  --kf-blue: #a8c9e8;
+  --kf-teal: #99d0c1;
+  --kf-rose: #dfafbd;
+  --kf-muted: #afbed2;
+  --kf-line: #ddc699;
+}
+
+/* 01 · Foundation: architectural midnight navy / warm ivory */
+body { background: var(--kf-night); color: var(--kf-ivory); }
+.site-shell {
+  background: radial-gradient(ellipse at 79% 4%, #14243a 0%, #0b1423 38%, #080f1c 72%, #070d17 100%);
+  color: var(--kf-ivory);
+}
+:focus-visible { outline-color: var(--kf-champagne-light); }
+.bi-ko { color: #b7c4d6; }
+
+/* 02 · Header: understated champagne brand, blue trust signals */
+.site-header { border-bottom-color: #ddc69930; }
+.brand { color: #f8f3e9; }
+.brand-mark { color: #e5c895; }
+.brand-mark span { color: #adc7e2; }
+.brand-dot { color: #e5c895; }
+.site-header nav a { color: #d8e2ee; }
+.site-header nav a:hover { color: #f2d9a8; }
+.nav-reading {
+  background: #dcbf8c12;
+  border-color: #dfc38f78;
+  color: #f4e8ce;
+}
+.nav-reading .bi-en,.nav-reading .bi-ko { color: #f4e8ce; }
+
+/* 03 · Hero: warm luxury against cool night blue */
+.sf-coordinate,.sf-coordinate span { color: #b9c9da; }
+.eyebrow { color: #e6cfa8; }
+.eyebrow .bi-ko { color: #aebfd0; }
+.status-dot { background: #a7dfcf; box-shadow: 0 0 12px #8fe0c16e; }
+.hero-copy h1 { color: #faf6ef; }
+.hero-copy h1 > span:not(.hero-ko) {
+  color: #e5c895;
+  background: linear-gradient(108deg, #fff3d8 0%, #e0c18e 48%, #aecae3 100%);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero-ko { color: #e2e1dd; }
+.hero-description { color: #c1ccda; text-shadow: 0 1px 8px #08101d80; }
+.hero-description .bi-ko { color: #bccbda; }
+.visual-caption { color: #f3e6cf; }
+.visual-caption .bi-ko { color: #c4d0dc; }
+.caption-line { background: #e4c896; }
+
+/* 04 · Primary actions: satin champagne, with strong ink contrast */
+.hero-cta,.reading-submit {
+  background: linear-gradient(113deg, #fff4dd 0%, #e6c896 53%, #c9dbdf 100%);
+  border-color: #fff0d4;
+  color: #132238;
+  box-shadow: 0 0 0 4px #e9c78b12, 0 0 32px #d8bd8b2c, 0 12px 30px #00000055;
+}
+.hero-cta .bi-en,.reading-submit .bi-en { color: #132238; }
+.hero-cta .bi-ko,.reading-submit .bi-ko { color: #33465a; }
+.hero-cta > span:last-child,.reading-submit > span:last-child { color: #17263b; }
+.hero-cta:hover,.reading-submit:hover {
+  background: linear-gradient(113deg, #fff9e9 0%, #f2d9aa 54%, #d9e8e8 100%);
+  box-shadow: 0 0 0 4px #f2d89d22, 0 0 43px #e5c58c42, 0 14px 30px #00000055;
+}
+.hero-cta:focus-visible,.reading-submit:focus-visible { outline-color: #fff6e5; }
+.hero-assurance {
+  border-left-color: #e5c895;
+  background: #111e30ed;
+  color: #e8e3d7;
+}
+.hero-assurance .bi-ko { color: #c2d0da; }
+
+/* 05 · Five elements: gentle distinction without neon saturation */
+.code-strip {
+  border-top-color: #d8c3993b;
+  border-bottom-color: #d8c3993b;
+  background: linear-gradient(90deg, #d4b98712, #86aac308 60%, transparent);
+}
+.code-strip-title { color: #ece6d9; }
+.code-strip-title .bi-ko { color: #b7c6d7; }
+.code-token { border-left-color: #d0b98e2a; }
+.code-token .bi-ko { color: #aebdd0; }
+.tree { color: #a5d8b9; }
+.fire { color: #e8b2ae; }
+.earth { color: #e8cb94; }
+.metal { color: #c8c2e5; }
+.water { color: #a5cbe8; }
+
+/* 06 · Reading section and input surface */
+.section-index { color: #c7ad7d; }
+.reading-heading h2 { color: #f6f1e8; }
+.reading-heading h2 span { color: #e5c895; }
+.reading-heading > p[lang=ko] { color: #c1cbd8; }
+.reading-summary { color: #b3c2d3; }
+.reading-summary .bi-ko { color: #b4c2d4; }
+.form-free { border-left-color: #99d0c1; color: #b5e0d3; }
+.form-free .bi-ko { color: #b1c3d1; }
+.reading-card {
+  border-color: #d8c39748;
+  background: linear-gradient(138deg, #1b2b3eea 0%, #111d2fe9 58%, #0d192bea 100%);
+  box-shadow: 0 15px 60px #00000038, 0 0 0 1px #d1b8800b;
+}
+.card-topline { color: #f3e7d0; border-bottom-color: #d9c69c2e; }
+.card-topline .bi-ko { color: #c4d0da; }
+.live-indicator { color: #a9dcc8; }
+.field-label { color: #e9e8e3; }
+.field-label .bi-ko { color: #b0c0d2; }
+.reading-card input {
+  border-color: #8ca4ba68;
+  background: #0c1727;
+  color: #f5f1e9;
+  caret-color: #e5c895;
+}
+.reading-card input:focus { outline-color: #d9c28f; border-color: #e4c795; }
+.gender-options button { background: #111e30; border-color: #8ea5bd4d; color: #c0cddd; }
+.gender-options button[aria-pressed=true] {
+  border-color: #e2c58e;
+  background: #e0c48e26;
+  color: #fff0d0;
+}
+.gender-options .bi-ko { color: #bbc9d7; }
+.privacy-note,.privacy-note .bi-ko { color: #a8bbcf; }
+
+/* 07 · Discovery: restrained lavender, mint and rose editorial accents */
+.discovery-item {
+  background: linear-gradient(142deg, #23334b80, #101b2d9e);
+  border-color: #c8b9913d;
+}
+.feature-number { color: #c2ab83; }
+.discovery-item h3 { color: #f1eadf; }
+.lavender h3 { color: #c9c0ed; }
+.mint h3 { color: #a5dbc8; }
+.peach h3 { color: #e9bac3; }
+.discovery-item p { color: #b7c4d5; }
+.discovery-item p .bi-ko { color: #b1c1d2; }
+.feature-arrow { color: #dcc396; }
+.cultural-note { color: #b7c2cf; }
+.cultural-note .bi-ko { color: #a8b9cc; }
+.site-footer { border-top-color: #d8be8d33; color: #b7c4d2; }
+.site-footer .bi-ko { color: #aebed0; }
+
+/* 08 · Results: keep components and chart hues intact */
+.result-content { color: #f4f0e8; }
+.result-content .bi-ko { color: #c0ccda; }
+.result-content > div:first-child { background: #17263b; }
+.result-content > div:nth-child(2) { background: #0f1d2f; }
+.result-content .shadow-sm { box-shadow: 0 3px 20px #0000003a; }
+
+/* 09 · Floating language switch */
+.kupfate-language-switch {
+  background: #101d2e;
+  border-color: #c9b17f99;
+  box-shadow: 0 6px 24px #0000009c;
+}
+.kupfate-language-switch button { color: #e4eaf1; }
+.kupfate-language-switch button[aria-pressed=true] {
+  background: #d9bd88;
+  color: #152439;
+}
