@@ -387,3 +387,21 @@ body { background: var(--kf-night); color: var(--kf-ivory); }
   background: #d9bd88;
   color: #152439;
 }
+
+/* 메인 상단 영역: 검정 배경 */
+.hero-stage {
+  background-color: #000000;
+}
+
+/* 생년월일 입력 박스: 더스티 블루 배경 */
+.reading-card {
+  background: #526d89;
+}
+
+.reading-card {
+  background: #0070c0;
+}
+
+.reading-card {
+  background: #9966ff;
+}
